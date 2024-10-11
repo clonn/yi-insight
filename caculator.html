@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>增強版數字占卜</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: black;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 24px;
+        }
+        .question-section, .input-section, .result-section, .instruction {
+            margin: 20px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 18px;
+        }
+        textarea, input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #fff;
+            background-color: #333;
+            color: white;
+            border-radius: 5px;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .trigram {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            background-image: url('/api/placeholder/480/60');
+            background-repeat: no-repeat;
+            margin: 0 10px;
+        }
+        .hexagram {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .hexagram-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 20px;
+        }
+        .line {
+            width: 100px;
+            height: 20px;
+            margin: 5px 0;
+            background-color: white;
+        }
+        .line.yin {
+            display: flex;
+            justify-content: space-between;
+        }
+        .line.yin::before, .line.yin::after {
+            content: "";
+            display: block;
+            width: 45%;
+            height: 100%;
+            background-color: white;
+        }
+        .changed {
+            background-color: red;
+        }
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            h1 {
+                font-size: 20px;
+            }
+            input, textarea {
+                font-size: 16px;
+            }
+            button {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>增強版數字占卜</h1>
+    
+    <div class="question-section">
+        <label for="question">請輸入您的問題：</label>
+        <textarea id="question" placeholder="在此輸入您的問題（可使用鍵盤或語音輸入）"></textarea>
+    </div>
+    
+    <p>1.誠心默念所占之事，遵循不誠不占、不義不占、不疑不占</p>
+    
+    <div class="input-section">
+        <p>2.在下面輸入框依次輸入三組非零開頭的三位數。輸錯重置</p>
+        <div class="input-field">
+            <label for="xiagua">下卦：</label>
+            <input type="number" id="xiagua" min="100" max="999">
+        </div>
+        <div class="input-field">
+            <label for="shanggua">上卦：</label>
+            <input type="number" id="shanggua" min="100" max="999">
+        </div>
+        <div class="input-field">
+            <label for="bianyao">變爻：</label>
+            <input type="number" id="bianyao" min="100" max="999">
+        </div>
+    </div>
+    
+    <div class="buttons">
+        <button onclick="randomize('xiagua')">下卦偶然</button>
+        <button onclick="randomize('shanggua')">上卦偶然</button>
+        <button onclick="randomize('bianyao')">變爻偶然</button>
+        <button onclick="reset()">重置</button>
+        <button onclick="calculate()">計算結果</button>
+    </div>
+    
+    <div class="result-section">
+        <p id="result"></p>
+        <div id="hexagram" class="hexagram"></div>
+    </div>
+    
+    <div class="instruction">
+        <p>3.下卦上卦分別除8求餘數，1=乾；2=兌；3=離；4=震；5=巽；6=坎；7=艮；0=坤</p>
+        <p>4.變爻除6求餘數，1=初爻變；2=二爻變；3=三爻變；4=四爻變；5=五爻變；0=六爻變</p>
+        <p>5.系統將自動計算並顯示卦象和變卦結果</p>
+    </div>
+
+    <script>
+        const guaNames = ['坤', '乾', '兌', '離', '震', '巽', '坎', '艮'];
+        const hexagramTable = [
+            {name: '乾卦', upper: '乾', lower: '乾'},
+            {name: '坤卦', upper: '坤', lower: '坤'},
+            {name: '屯卦', upper: '坎', lower: '震'},
+            {name: '蒙卦', upper: '艮', lower: '坎'},
+            {name: '需卦', upper: '坎', lower: '乾'},
+            {name: '訟卦', upper: '乾', lower: '坎'},
+            {name: '師卦', upper: '坤', lower: '坎'},
+            {name: '比卦', upper: '坎', lower: '坤'},
+            {name: '小畜卦', upper: '乾', lower: '巽'},
+            {name: '履卦', upper: '乾', lower: '兌'},
+            {name: '泰卦', upper: '坤', lower: '乾'},
+            {name: '否卦', upper: '乾', lower: '坤'},
+            {name: '同人卦', upper: '乾', lower: '離'},
+            {name: '大有卦', upper: '離', lower: '乾'},
+            {name: '謙卦', upper: '坤', lower: '艮'},
+            {name: '豫卦', upper: '震', lower: '坤'},
+            {name: '隨卦', upper: '兌', lower: '震'},
+            {name: '蠱卦', upper: '艮', lower: '巽'},
+            {name: '臨卦', upper: '坤', lower: '兌'},
+            {name: '觀卦', upper: '巽', lower: '坤'},
+            {name: '噬嗑卦', upper: '離', lower: '震'},
+            {name: '賁卦', upper: '艮', lower: '離'},
+            {name: '剝卦', upper: '坤', lower: '艮'},
+            {name: '復卦', upper: '震', lower: '坤'},
+            {name: '無妄卦', upper: '乾', lower: '震'},
+            {name: '大畜卦', upper: '艮', lower: '乾'},
+            {name: '頤卦', upper: '艮', lower: '震'},
+            {name: '大過卦', upper: '兌', lower: '巽'},
+            {name: '坎卦', upper: '坎', lower: '坎'},
+            {name: '離卦', upper: '離', lower: '離'},
+            {name: '咸卦', upper: '兌', lower: '艮'},
+            {name: '恆卦', upper: '巽', lower: '震'},
+            {name: '遯卦', upper: '乾', lower: '艮'},
+            {name: '大壯卦', upper: '震', lower: '乾'},
+            {name: '晉卦', upper: '離', lower: '坤'},
+            {name: '明夷卦', upper: '坤', lower: '離'},
+            {name: '家人卦', upper: '巽', lower: '離'},
+            {name: '睽卦', upper: '離', lower: '兌'},
+            {name: '蹇卦', upper: '坎', lower: '艮'},
+            {name: '解卦', upper: '震', lower: '坎'},
+            {name: '損卦', upper: '艮', lower: '兌'},
+            {name: '益卦', upper: '巽', lower: '震'},
+            {name: '夬卦', upper: '兌', lower: '乾'},
+            {name: '姤卦', upper: '乾', lower: '巽'},
+            {name: '萃卦', upper: '兌', lower: '坤'},
+            {name: '升卦', upper: '巽', lower: '坤'},
+            {name: '困卦', upper: '坎', lower: '兌'},
+            {name: '井卦', upper: '巽', lower: '坎'},
+            {name: '革卦', upper: '離', lower: '兌'},
+            {name: '鼎卦', upper: '離', lower: '巽'},
+            {name: '震卦', upper: '震', lower: '震'},
+            {name: '艮卦', upper: '艮', lower: '艮'},
+            {name: '漸卦', upper: '巽', lower: '艮'},
+            {name: '歸妹卦', upper: '震', lower: '兌'},
+            {name: '豐卦', upper: '離', lower: '震'},
+            {name: '旅卦', upper: '震', lower: '離'},
+            {name: '巽卦', upper: '巽', lower: '巽'},
+            {name: '兌卦', upper: '兌', lower: '兌'},
+            {name: '渙卦', upper: '巽', lower: '坎'},
+            {name: '節卦', upper: '坎', lower: '兌'},
+            {name: '中孚卦', upper: '巽', lower: '兌'},
+            {name: '小過卦', upper: '震', lower: '艮'},
+            {name: '既濟卦', upper: '離', lower: '坎'},
+            {name: '未濟卦', upper: '坎', lower: '離'}
+        ];
+
+        function randomize(id) {
+            document.getElementById(id).value = Math.floor(Math.random() * 900) + 100;
+        }
+
+        function reset() {
+            document.getElementById('question').value = '';
+            document.getElementById('xiagua').value = '';
+            document.getElementById('shanggua').value = '';
+            document.getElementById('bianyao').value = '';
+            document.getElementById('result').innerHTML = '';
+            document.getElementById('hexagram').innerHTML = '';
+        }
+
+        function getHexagramLines(lower, upper) {
+            const binaryMap = {
+                '乾': '111', '兌': '110', '離': '101', '震': '100',
+                '巽': '011', '坎': '010', '艮': '001', '坤': '000'
+            };
+            return binaryMap[lower] + binaryMap[upper];
+        }
+
+        function drawHexagram(lines, changedLine) {
+            const hexagramDiv = document.getElementById('hexagram');
+            hexagramDiv.innerHTML = '';
+
+            const originalColumn = document.createElement('div');
+            originalColumn.className = 'hexagram-column';
+            const changedColumn = document.createElement('div');
+            changedColumn.className = 'hexagram-column';
+
+            lines.split('').forEach((line, index) => {
+                const originalLine = document.createElement('div');
+                originalLine.className = line === '1' ? 'line yang' : 'line yin';
+                if (index === changedLine) {
+                    originalLine.classList.add('changed');
+                }
+                originalColumn.appendChild(originalLine);
+
+                const changedLineElement = document.createElement('div');
+                changedLineElement.className = (index === changedLine) ? (line === '1' ? 'line yin' : 'line yang') : (line === '1' ? 'line yang' : 'line yin');
+                changedColumn.appendChild(changedLineElement);
+            });
+
+            hexagramDiv.appendChild(originalColumn);
+            if (changedLine !== -1) {
+                hexagramDiv.appendChild(changedColumn);
+            }
+        }
+
+        function getHexagramByTrigrams(lower, upper) {
+            return hexagramTable.find(h => h.lower === lower && h.upper === upper);
+        }
+
+        function calculate() {
+            const question = document.getElementById('question').value;
+            const xiagua = parseInt(document.getElementById('xiagua').value);
+            const shanggua = parseInt(document.getElementById('shanggua').value);
+            const bianyao = parseInt(document.getElementById('bianyao').value);
+
+            if (isNaN(xiagua) || isNaN(shanggua) || isNaN(bianyao)) {
+                alert('請輸入有效的數字');
+                return;
+            }
+
+            const xiaguaResult = xiagua % 8 || 8;
+            const shangguaResult = shanggua % 8 || 8;
+            const bianyaoResult = bianyao % 6 || 6;
+
+            const lowerTrigram = guaNames[xiaguaResult - 1];
+            const upperTrigram = guaNames[shangguaResult - 1];
+
+            const originalHexagram = getHexagramByTrigrams(lowerTrigram, upperTrigram);
+            const lines = getHexagramLines(lowerTrigram, upperTrigram);
+            
+            let result = `問題：${question}<br><br>`;
+            result += `卦象：${originalHexagram.name}<br>`;
+            result += `下卦：${lowerTrigram}（${xiagua
