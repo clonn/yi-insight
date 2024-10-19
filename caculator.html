@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>增強版數字占卜</title>
+    <title>增強版數字占卜 v0.2-241019</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -56,14 +56,6 @@
         }
         button:hover {
             background-color: #45a049;
-        }
-        .trigram {
-            display: inline-block;
-            width: 60px;
-            height: 60px;
-            background-image: url('/api/placeholder/480/60');
-            background-repeat: no-repeat;
-            margin: 0 10px;
         }
         .hexagram {
             display: flex;
@@ -124,18 +116,18 @@
     <p>1.誠心默念所占之事，遵循不誠不占、不義不占、不疑不占</p>
     
     <div class="input-section">
-        <p>2.在下面輸入框依次輸入三組非零開頭的三位數。輸錯重置</p>
+        <p>2.在下面輸入框依次輸入三組三位數字。輸錯重置</p>
         <div class="input-field">
             <label for="xiagua">下卦：</label>
-            <input type="number" id="xiagua" min="100" max="999">
+            <input type="text" id="xiagua" pattern="\d{3}" required>
         </div>
         <div class="input-field">
             <label for="shanggua">上卦：</label>
-            <input type="number" id="shanggua" min="100" max="999">
+            <input type="text" id="shanggua" pattern="\d{3}" required>
         </div>
         <div class="input-field">
             <label for="bianyao">變爻：</label>
-            <input type="number" id="bianyao" min="100" max="999">
+            <input type="text" id="bianyao" pattern="\d{3}" required>
         </div>
     </div>
     
@@ -152,177 +144,685 @@
         <div id="hexagram" class="hexagram"></div>
     </div>
     
-    <div class="instruction">
-        <p>3.下卦上卦分別除8求餘數，1=乾；2=兌；3=離；4=震；5=巽；6=坎；7=艮；0=坤</p>
-        <p>4.變爻除6求餘數，1=初爻變；2=二爻變；3=三爻變；4=四爻變；5=五爻變；0=六爻變</p>
-        <p>5.系統將自動計算並顯示卦象和變卦結果</p>
-    </div>
-
     <script>
-        const guaNames = ['坤', '乾', '兌', '離', '震', '巽', '坎', '艮'];
-        const hexagramTable = [
-            {name: '乾卦', upper: '乾', lower: '乾'},
-            {name: '坤卦', upper: '坤', lower: '坤'},
-            {name: '屯卦', upper: '坎', lower: '震'},
-            {name: '蒙卦', upper: '艮', lower: '坎'},
-            {name: '需卦', upper: '坎', lower: '乾'},
-            {name: '訟卦', upper: '乾', lower: '坎'},
-            {name: '師卦', upper: '坤', lower: '坎'},
-            {name: '比卦', upper: '坎', lower: '坤'},
-            {name: '小畜卦', upper: '乾', lower: '巽'},
-            {name: '履卦', upper: '乾', lower: '兌'},
-            {name: '泰卦', upper: '坤', lower: '乾'},
-            {name: '否卦', upper: '乾', lower: '坤'},
-            {name: '同人卦', upper: '乾', lower: '離'},
-            {name: '大有卦', upper: '離', lower: '乾'},
-            {name: '謙卦', upper: '坤', lower: '艮'},
-            {name: '豫卦', upper: '震', lower: '坤'},
-            {name: '隨卦', upper: '兌', lower: '震'},
-            {name: '蠱卦', upper: '艮', lower: '巽'},
-            {name: '臨卦', upper: '坤', lower: '兌'},
-            {name: '觀卦', upper: '巽', lower: '坤'},
-            {name: '噬嗑卦', upper: '離', lower: '震'},
-            {name: '賁卦', upper: '艮', lower: '離'},
-            {name: '剝卦', upper: '坤', lower: '艮'},
-            {name: '復卦', upper: '震', lower: '坤'},
-            {name: '無妄卦', upper: '乾', lower: '震'},
-            {name: '大畜卦', upper: '艮', lower: '乾'},
-            {name: '頤卦', upper: '艮', lower: '震'},
-            {name: '大過卦', upper: '兌', lower: '巽'},
-            {name: '坎卦', upper: '坎', lower: '坎'},
-            {name: '離卦', upper: '離', lower: '離'},
-            {name: '咸卦', upper: '兌', lower: '艮'},
-            {name: '恆卦', upper: '巽', lower: '震'},
-            {name: '遯卦', upper: '乾', lower: '艮'},
-            {name: '大壯卦', upper: '震', lower: '乾'},
-            {name: '晉卦', upper: '離', lower: '坤'},
-            {name: '明夷卦', upper: '坤', lower: '離'},
-            {name: '家人卦', upper: '巽', lower: '離'},
-            {name: '睽卦', upper: '離', lower: '兌'},
-            {name: '蹇卦', upper: '坎', lower: '艮'},
-            {name: '解卦', upper: '震', lower: '坎'},
-            {name: '損卦', upper: '艮', lower: '兌'},
-            {name: '益卦', upper: '巽', lower: '震'},
-            {name: '夬卦', upper: '兌', lower: '乾'},
-            {name: '姤卦', upper: '乾', lower: '巽'},
-            {name: '萃卦', upper: '兌', lower: '坤'},
-            {name: '升卦', upper: '巽', lower: '坤'},
-            {name: '困卦', upper: '坎', lower: '兌'},
-            {name: '井卦', upper: '巽', lower: '坎'},
-            {name: '革卦', upper: '離', lower: '兌'},
-            {name: '鼎卦', upper: '離', lower: '巽'},
-            {name: '震卦', upper: '震', lower: '震'},
-            {name: '艮卦', upper: '艮', lower: '艮'},
-            {name: '漸卦', upper: '巽', lower: '艮'},
-            {name: '歸妹卦', upper: '震', lower: '兌'},
-            {name: '豐卦', upper: '離', lower: '震'},
-            {name: '旅卦', upper: '震', lower: '離'},
-            {name: '巽卦', upper: '巽', lower: '巽'},
-            {name: '兌卦', upper: '兌', lower: '兌'},
-            {name: '渙卦', upper: '巽', lower: '坎'},
-            {name: '節卦', upper: '坎', lower: '兌'},
-            {name: '中孚卦', upper: '巽', lower: '兌'},
-            {name: '小過卦', upper: '震', lower: '艮'},
-            {name: '既濟卦', upper: '離', lower: '坎'},
-            {name: '未濟卦', upper: '坎', lower: '離'}
-        ];
+        const hexagrams8 = {
+    "乾卦": {"二進制": "111", "meaning": "天、剛健、創造、領導、強勢"},
+    "坤卦": {"二進制": "000", "meaning": "地、包容、順應、柔和、接受"},
+    "震卦": {"二進制": "100", "meaning": "雷、震動、驚動、變動"},
+    "巽卦": {"二進制": "011", "meaning": "風、入侵、滲透、順從"},
+    "坎卦": {"二進制": "010", "meaning": "水、陷阱、危險、隱藏"},
+    "離卦": {"二進制": "101", "meaning": "火、光明、依附、燦爛"},
+    "艮卦": {"二進制": "001", "meaning": "山、靜止、阻止、安定"},
+    "兌卦": {"二進制": "110", "meaning": "澤、喜悅、愉快、溝通"}
+};
 
-        function randomize(id) {
-            document.getElementById(id).value = Math.floor(Math.random() * 900) + 100;
+const hexagrams64 = [
+    {
+        "sequence": 1,
+        "name": "乾卦",
+        "upperTrigram": "乾",
+        "lowerTrigram": "乾",
+        "binary": "111111",
+        "meaning": "剛健、自強不息，象徵創造、領導與卓越"
+    },
+    {
+        "sequence": 2,
+        "name": "坤卦",
+        "upperTrigram": "坤",
+        "lowerTrigram": "坤",
+        "binary": "000000",
+        "meaning": "順從、包容萬物，象徵地、大地之德，柔順而後能成事"
+    },
+    {
+        "sequence": 3,
+        "name": "屯卦",
+        "upperTrigram": "坎",
+        "lowerTrigram": "震",
+        "binary": "010100",
+        "meaning": "初創之難，險中有進，代表新事物萌芽但面臨困難"
+    },
+    {
+        "sequence": 4,
+        "name": "蒙卦",
+        "upperTrigram": "艮",
+        "lowerTrigram": "坎",
+        "binary": "001010",
+        "meaning": "蒙昧無知，象徵教育與啟蒙"
+    },
+    {
+        "sequence": 5,
+        "name": "需卦",
+        "upperTrigram": "坎",
+        "lowerTrigram": "乾",
+        "binary": "010111",
+        "meaning": "需等待，象徵困難中的耐心與準備"
+    },
+    {
+        "sequence": 6,
+        "name": "訟卦",
+        "upperTrigram": "乾",
+        "lowerTrigram": "坎",
+        "binary": "111010",
+        "meaning": "訟爭、爭議，象徵矛盾與對抗"
+    },
+    {
+        "sequence": 7,
+        "name": "師卦",
+        "upperTrigram": "坤",
+        "lowerTrigram": "坎",
+        "binary": "000010",
+        "meaning": "師道、領導，象徵軍隊、秩序與紀律"
+    },
+    {
+        "sequence": 8,
+        "name": "比卦",
+        "upperTrigram": "坎",
+        "lowerTrigram": "坤",
+        "binary": "010000",
+        "meaning": "比附、親和，象徵合作與團結"
+    },
+    {
+        "sequence": 9,
+        "name": "小畜卦",
+        "upperTrigram": "乾",
+        "lowerTrigram": "巽",
+        "binary": "111011",
+        "meaning": "小有積蓄，象徵積累與控制"
+    },
+    {
+        "sequence": 10,
+        "name": "履卦",
+        "upperTrigram": "乾",
+        "lowerTrigram": "兌",
+        "binary": "111110",
+        "meaning": "履行、行為，象徵行動中的謹慎與規範"
+    },
+    {
+        "sequence": 11,
+        "name": "泰卦",
+        "upperTrigram": "坤",
+        "lowerTrigram": "乾",
+        "binary": "000111",
+        "meaning": "泰平，象徵天地交泰，安定與和諧"
+    },
+    {
+        "sequence": 12,
+        "name": "否卦",
+        "upperTrigram": "乾",
+        "lowerTrigram": "坤",
+        "binary": "111000",
+        "meaning": "否閉，象徵阻隔、隔絕與不通"
+    },
+    {
+        "sequence": 13,
+        "name": "同人卦",
+        "upperTrigram": "乾",
+        "lowerTrigram": "離",
+        "binary": "111101",
+        "meaning": "同人，象徵和睦共處，合夥與合作"
+    },
+    {
+        "sequence": 14,
+        "name": "大有卦",
+        "upperTrigram": "離",
+        "lowerTrigram": "乾",
+        "binary": "101111",
+        "meaning": "大有，象徵豐收、成就與富裕"
+    },
+    {
+        "sequence": 15,
+        "name": "謙卦",
+        "upperTrigram": "坤",
+        "lowerTrigram": "艮",
+        "binary": "000001",
+        "meaning": "謙遜，象徵謙讓、包容與謙虛"
+    },
+    {
+        "sequence": 16,
+        "name": "豫卦",
+        "upperTrigram": "震",
+        "lowerTrigram": "坤",
+        "binary": "100000",
+        "meaning": "豫悅，象徵歡樂、積極向上"
+    },
+    {
+        "sequence": 17,
+        "name": "隨卦",
+        "upperTrigram": "兌",
+        "lowerTrigram": "震",
+        "binary": "110100",
+        "meaning": "隨從，象徵順勢而行，靈活應變"
+    },
+    {
+        "sequence": 18,
+        "name": "蠱卦",
+        "upperTrigram": "艮",
+        "lowerTrigram": "巽",
+        "binary": "001011",
+        "meaning": "蠱惑，象徵腐敗與重建"
+    },
+    {
+        "sequence": 19,
+        "name": "臨卦",
+        "upperTrigram": "坤",
+        "lowerTrigram": "兌",
+        "binary": "000110",
+        "meaning": "臨近，象徵監督、引導"
+    },
+    {
+        "sequence": 20,
+        "name": "觀卦",
+        "upperTrigram": "巽",
+        "lowerTrigram": "坤",
+        "binary": "011000",
+        "meaning": "觀察，象徵洞察力與遠見"
+    },
+    {
+        "sequence": 21,
+        "name": "噬嗑卦",
+        "upperTrigram": "離",
+        "lowerTrigram": "震",
+        "binary": "101100",
+        "meaning": "噬嗑，象徵懲罰與法律"
+    },
+    {
+        "sequence": 22,
+        "name": "賁卦",
+        "upperTrigram": "艮",
+        "lowerTrigram": "離",
+        "binary": "001101",
+        "meaning": "賁麗，象徵裝飾、美化"
+    },
+    {
+        "sequence": 23,
+        "name": "剝卦",
+        "upperTrigram": "坤",
+        "lowerTrigram": "艮",
+        "binary": "000001",
+        "meaning": "剝蝕，象徵衰退與削弱"
+    },
+    {
+        "sequence": 24,
+        "name": "復卦",
+        "upperTrigram": "震",
+        "lowerTrigram": "坤",
+        "binary": "100000",
+        "meaning": "復返，象徵回歸與復甦"
+    },
+    {
+        "sequence": 25,
+        "name": "無妄卦",
+        "upperTrigram": "乾",
+        "lowerTrigram": "震",
+        "binary": "111100",
+        "meaning": "無妄，象徵誠實與純真"
+    },
+    {
+        "sequence": 26,
+        "name": "大畜卦",
+        "upperTrigram": "艮",
+        "lowerTrigram": "乾",
+        "binary": "001111",
+        "meaning": "大畜，象徵蓄積與等待"
+    },
+    {
+        "sequence": 27,
+        "name": "頤卦",
+        "upperTrigram": "艮",
+        "lowerTrigram": "震",
+        "binary": "001100",
+        "meaning": "頤養，象徵滋養與修養"
+    },
+    {
+        "sequence": 28,
+        "name": "大過卦",
+        "upperTrigram": "兌",
+        "lowerTrigram": "巽",
+        "binary": "110011",
+        "meaning": "大過，象徵超越常規，承擔重任"
+    },
+    {
+        "sequence": 29,
+        "name": "坎卦",
+        "upperTrigram": "坎",
+        "lowerTrigram": "坎",
+        "binary": "010010",
+        "meaning": "坎陷，象徵險境與挑戰"
+    },
+    {
+        "sequence": 30,
+        "name": "離卦",
+        "upperTrigram": "離",
+        "lowerTrigram": "離",
+        "binary": "101101",
+        "meaning": "離明，象徵光明與依附"
+    },
+    {
+        "sequence": 31,
+        "name": "咸卦",
+        "upperTrigram": "兌",
+        "lowerTrigram": "艮",
+        "binary": "110001",
+        "meaning": "咸感，象徵感應與互動"
+    },
+    {
+        "sequence": 32,
+        "name": "恆卦",
+        "upperTrigram": "巽",
+        "lowerTrigram": "震",
+        "binary": "011100",
+        "meaning": "恆常，象徵穩定與持久"
+    },
+    {
+        "sequence": 33,
+        "name": "遯卦",
+        "upperTrigram": "乾",
+        "lowerTrigram": "艮",
+        "binary": "111001",
+        "meaning": "遯退，象徵退隱與回避"
+    },
+    {
+        "sequence": 34,
+        "name": "大壯卦",
+        "upperTrigram": "震",
+        "lowerTrigram": "乾",
+        "binary": "100111",
+        "meaning": "大壯，象徵強盛與力量"
+    },
+    {
+        "sequence": 35,
+        "name": "晉卦",
+        "upperTrigram": "離",
+        "lowerTrigram": "坤",
+        "binary": "101000",
+        "meaning": "晉升，象徵進步與榮耀"
+    },
+    {
+        "sequence": 36,
+        "name": "明夷卦",
+        "upperTrigram": "坤",
+        "lowerTrigram": "離",
+        "binary": "000101",
+        "meaning": "明夷，象徵光明被隱藏，困境中的隱忍"
+    },
+    {
+        "sequence": 37,
+        "name": "家人卦",
+        "upperTrigram": "巽",
+        "lowerTrigram": "離",
+        "binary": "011101",
+        "meaning": "家人，象徵家庭的和諧與責任"
+    },
+    {
+        "sequence": 38,
+        "name": "睽卦",
+        "upperTrigram": "離",
+        "lowerTrigram": "兌",
+        "binary": "101110",
+        "meaning": "睽異，象徵分歧與對立"
+    },
+    {
+        "sequence": 39,
+        "name": "蹇卦",
+        "upperTrigram": "坎",
+        "lowerTrigram": "艮",
+        "binary": "010001",
+        "meaning": "蹇難，象徵困難與障礙"
+    },
+    {
+        "sequence": 40,
+        "name": "解卦",
+        "upperTrigram": "震",
+        "lowerTrigram": "坎",
+        "binary": "100010",
+        "meaning": "解脫，象徵解決問題與釋放"
+    },
+    {
+        "sequence": 41,
+        "name": "損卦",
+        "upperTrigram": "艮",
+        "lowerTrigram": "兌",
+        "binary": "001110",
+        "meaning": "損減，象徵削減與節約"
+    },
+    {
+        "sequence": 42,
+        "name": "益卦",
+        "upperTrigram": "巽",
+        "lowerTrigram": "震",
+        "binary": "011100",
+        "meaning": "增益，象徵增長與富足"
+    },
+    {
+        "sequence": 43,
+        "name": "夬卦",
+        "upperTrigram": "兌",
+        "lowerTrigram": "乾",
+        "binary": "110111",
+        "meaning": "決斷，象徵決心與果斷行動"
+    },
+    {
+        "sequence": 44,
+        "name": "姤卦",
+        "upperTrigram": "乾",
+        "lowerTrigram": "巽",
+        "binary": "111011",
+        "meaning": "遇合，象徵偶遇與不期而遇"
+    },
+    {
+        "sequence": 45,
+        "name": "萃卦",
+        "upperTrigram": "兌",
+        "lowerTrigram": "坤",
+        "binary": "110000",
+        "meaning": "集聚，象徵集會與匯聚力量"
+    },
+    {
+        "sequence": 46,
+        "name": "升卦",
+        "upperTrigram": "巽",
+        "lowerTrigram": "坤",
+        "binary": "011000",
+        "meaning": "升遷，象徵提升與進展"
+    },
+    {
+        "sequence": 47,
+        "name": "困卦",
+        "upperTrigram": "坎",
+        "lowerTrigram": "兌",
+        "binary": "010110",
+        "meaning": "困厄，象徵困難與受困"
+    },
+    {
+        "sequence": 48,
+        "name": "井卦",
+        "upperTrigram": "巽",
+        "lowerTrigram": "坎",
+        "binary": "011010",
+        "meaning": "井泉，象徵供給與資源"
+    },
+    {
+        "sequence": 49,
+        "name": "革卦",
+        "upperTrigram": "離",
+        "lowerTrigram": "兌",
+        "binary": "101110",
+        "meaning": "革新，象徵變革與改變"
+    },
+    {
+        "sequence": 50,
+        "name": "鼎卦",
+        "upperTrigram": "離",
+        "lowerTrigram": "巽",
+        "binary": "101011",
+        "meaning": "鼎盛，象徵穩定與強盛"
+    },
+    {
+        "sequence": 51,
+        "name": "震卦",
+        "upperTrigram": "震",
+        "lowerTrigram": "震",
+        "binary": "100100",
+        "meaning": "震動，象徵驚嚇與變動"
+    },
+    {
+        "sequence": 52,
+        "name": "艮卦",
+        "upperTrigram": "艮",
+        "lowerTrigram": "艮",
+        "binary": "001001",
+        "meaning": "艮止，象徵靜止與克制"
+    },
+    {
+        "sequence": 53,
+        "name": "漸卦",
+        "upperTrigram": "巽",
+        "lowerTrigram": "艮",
+        "binary": "011001",
+        "meaning": "漸進，象徵逐步的進展"
+    },
+    {
+        "sequence": 54,
+        "name": "歸妹卦",
+        "upperTrigram": "震",
+        "lowerTrigram": "兌",
+        "binary": "100110",
+        "meaning": "歸妹，象徵婚姻與結合"
+    },
+    {
+        "sequence": 55,
+        "name": "豐卦",
+        "upperTrigram": "離",
+        "lowerTrigram": "震",
+        "binary": "101100",
+        "meaning": "豐盛，象徵豐富與盈滿"
+    },
+    {
+        "sequence": 56,
+        "name": "旅卦",
+        "upperTrigram": "震",
+        "lowerTrigram": "離",
+        "binary": "100101",
+        "meaning": "旅途，象徵旅行與漂泊"
+    },
+    {
+        "sequence": 57,
+        "name": "巽卦",
+        "upperTrigram": "巽",
+        "lowerTrigram": "巽",
+        "binary": "011011",
+        "meaning": "順從，象徵風的流動與變化"
+    },
+    {
+        "sequence": 58,
+        "name": "兌卦",
+        "upperTrigram": "兌",
+        "lowerTrigram": "兌",
+        "binary": "110110",
+        "meaning": "悅樂，象徵愉悅與和諧"
+    },
+    {
+        "sequence": 59,
+        "name": "渙卦",
+        "upperTrigram": "巽",
+        "lowerTrigram": "坎",
+        "binary": "011010",
+        "meaning": "渙散，象徵解散與分離"
+    },
+    {
+        "sequence": 60,
+        "name": "節卦",
+        "upperTrigram": "坎",
+        "lowerTrigram": "兌",
+        "binary": "010110",
+        "meaning": "節制，象徵約束與限制"
+    },
+    {
+        "sequence": 61,
+        "name": "中孚卦",
+        "upperTrigram": "巽",
+        "lowerTrigram": "兌",
+        "binary": "011110",
+        "meaning": "中孚，象徵誠信與忠實"
+    },
+    {
+        "sequence": 62,
+        "name": "小過卦",
+        "upperTrigram": "震",
+        "lowerTrigram": "艮",
+        "binary": "100001",
+        "meaning": "小過，象徵過度與超過"
+    },
+    {
+        "sequence": 63,
+        "name": "既濟卦",
+        "upperTrigram": "離",
+        "lowerTrigram": "坎",
+        "binary": "101010",
+        "meaning": "已完成，象徵事情的結束與圓滿"
+    },
+    {
+        "sequence": 64,
+        "name": "未濟卦",
+        "upperTrigram": "坎",
+        "lowerTrigram": "離",
+        "binary": "010101",
+        "meaning": "未完成，象徵事情未達成，仍在過程中"
+    }
+];
+
+
+function randomize(id) {
+    document.getElementById(id).value = String(Math.floor(Math.random() * 1000)).padStart(3, '0');
+}
+
+function reset() {
+    document.getElementById('question').value = '';
+    document.getElementById('xiagua').value = '';
+    document.getElementById('shanggua').value = '';
+    document.getElementById('bianyao').value = '';
+    document.getElementById('result').innerHTML = '';
+    document.getElementById('hexagram').innerHTML = '';
+}
+
+function getTrigram(num) {
+    const remainder = num % 8;
+    return Object.keys(hexagrams8)[remainder === 0 ? 7 : remainder - 1];
+}
+
+function getHexagram(lower, upper) {
+    // 從 hexagrams8 獲取對應的二進制
+    const lowerBinary = hexagrams8[lower]["二進制"];
+    const upperBinary = hexagrams8[upper]["二進制"];
+    
+    // 組合完整的六爻二進制
+    const fullBinary = lowerBinary + upperBinary;
+    
+    // 在 hexagrams64 中查找匹配的卦象
+    return hexagrams64.find(h => h.binary === fullBinary);
+}
+
+function getBinaryFromTrigram(trigram) {
+    return hexagrams8[trigram]["二進制"];
+}
+
+// 新增 Gemini 解讀函數
+async function getGeminiInterpretation(question, originalHexagram, changedHexagram) {
+    try {
+        // 檢查 Gemini API 是否可用
+        if (!window.gemini) {
+            throw new Error('Gemini API not available');
         }
 
-        function reset() {
-            document.getElementById('question').value = '';
-            document.getElementById('xiagua').value = '';
-            document.getElementById('shanggua').value = '';
-            document.getElementById('bianyao').value = '';
-            document.getElementById('result').innerHTML = '';
-            document.getElementById('hexagram').innerHTML = '';
+        const prompt = `作為易經專家，請針對以下問題和卦象提供正面且具有建設性的解讀與建議：
+
+問題：${question}
+
+本卦：${originalHexagram.name}
+本卦含義：${originalHexagram.meaning}
+
+變卦：${changedHexagram.name}
+變卦含義：${changedHexagram.meaning}
+
+請提供：
+1. 現況分析（基於本卦）
+2. 發展趨勢（基於變卦）
+3. 具體建議（請給予正面、建設性的建議）
+
+請用溫和積極的語氣，給予實用的參考建議。內容要避免過於具體或限制性的斷言，而是提供啟發性的思考方向。`;
+
+        const result = await window.gemini.generateText({
+            prompt: prompt,
+            max_output_tokens: 800
+        });
+
+        return result.response.text();
+    } catch (error) {
+        console.error('Gemini interpretation error:', error);
+        return '無法使用 AI 解讀功能，請參考卦象本身的意義作為參考。';
+    }
+}
+      
+      
+function drawHexagram(lines, changedLine) {
+    const hexagramDiv = document.getElementById('hexagram');
+    hexagramDiv.innerHTML = '';
+
+    const originalColumn = document.createElement('div');
+    originalColumn.className = 'hexagram-column';
+    const changedColumn = document.createElement('div');
+    changedColumn.className = 'hexagram-column';
+
+    lines.split('').forEach((line, index) => {
+        const originalLine = document.createElement('div');
+        originalLine.className = line === '1' ? 'line yang' : 'line yin';
+        if (index === changedLine) {
+            originalLine.classList.add('changed');
         }
+        originalColumn.appendChild(originalLine);
 
-        function getHexagramLines(lower, upper) {
-            const binaryMap = {
-                '乾': '111', '兌': '110', '離': '101', '震': '100',
-                '巽': '011', '坎': '010', '艮': '001', '坤': '000'
-            };
-            return binaryMap[lower] + binaryMap[upper];
-        }
+        const changedLineElement = document.createElement('div');
+        changedLineElement.className = (index === changedLine) ? (line === '1' ? 'line yin' : 'line yang') : (line === '1' ? 'line yang' : 'line yin');
+        changedColumn.appendChild(changedLineElement);
+    });
 
-        function drawHexagram(lines, changedLine) {
-            const hexagramDiv = document.getElementById('hexagram');
-            hexagramDiv.innerHTML = '';
+    hexagramDiv.appendChild(originalColumn);
+    hexagramDiv.appendChild(changedColumn);
+}
 
-            const originalColumn = document.createElement('div');
-            originalColumn.className = 'hexagram-column';
-            const changedColumn = document.createElement('div');
-            changedColumn.className = 'hexagram-column';
+async function calculate() {
+    const question = document.getElementById('question').value;
+    const xiagua = parseInt(document.getElementById('xiagua').value);
+    const shanggua = parseInt(document.getElementById('shanggua').value);
+    const bianyao = parseInt(document.getElementById('bianyao').value);
 
-            lines.split('').forEach((line, index) => {
-                const originalLine = document.createElement('div');
-                originalLine.className = line === '1' ? 'line yang' : 'line yin';
-                if (index === changedLine) {
-                    originalLine.classList.add('changed');
-                }
-                originalColumn.appendChild(originalLine);
+    if (isNaN(xiagua) || isNaN(shanggua) || isNaN(bianyao)) {
+        alert('請輸入有效的數字');
+        return;
+    }
 
-                const changedLineElement = document.createElement('div');
-                changedLineElement.className = (index === changedLine) ? (line === '1' ? 'line yin' : 'line yang') : (line === '1' ? 'line yang' : 'line yin');
-                changedColumn.appendChild(changedLineElement);
-            });
+    const lowerTrigram = getTrigram(xiagua);
+    const upperTrigram = getTrigram(shanggua);
 
-            hexagramDiv.appendChild(originalColumn);
-            if (changedLine !== -1) {
-                hexagramDiv.appendChild(changedColumn);
-            }
-        }
+    const originalHexagram = getHexagram(lowerTrigram, upperTrigram);
+    const binaryString = getBinaryFromTrigram(lowerTrigram) + getBinaryFromTrigram(upperTrigram);
 
-        function getHexagramByTrigrams(lower, upper) {
-            return hexagramTable.find(h => h.lower === lower && h.upper === upper);
-        }
+    const changedPosition = bianyao % 6 || 6;
+    let changedBinary = binaryString.split('');
+    changedBinary[changedPosition - 1] = changedBinary[changedPosition - 1] === '1' ? '0' : '1';
+    changedBinary = changedBinary.join('');
 
-        function calculate() {
-            const question = document.getElementById('question').value;
-            const xiagua = parseInt(document.getElementById('xiagua').value);
-            const shanggua = parseInt(document.getElementById('shanggua').value);
-            const bianyao = parseInt(document.getElementById('bianyao').value);
-        
-            if (isNaN(xiagua) || isNaN(shanggua) || isNaN(bianyao)) {
-                alert('請輸入有效的數字');
-                return;
-            }
-        
-            const xiaguaResult = xiagua % 8 || 8;
-            const shangguaResult = shanggua % 8 || 8;
-            const bianyaoResult = bianyao % 6 || 6;
-        
-            const lowerTrigram = guaNames[xiaguaResult - 1];
-            const upperTrigram = guaNames[shangguaResult - 1];
-        
-            const originalHexagram = getHexagramByTrigrams(lowerTrigram, upperTrigram);
-            const lines = getHexagramLines(lowerTrigram, upperTrigram);
-            
-            let result = `問題：${question}<br><br>`;
-            result += `卦象：${originalHexagram.name}<br>`;
-            result += `下卦：${lowerTrigram}（${xiagua} % 8 = ${xiaguaResult}）<br>`;
-            result += `上卦：${upperTrigram}（${shanggua} % 8 = ${shangguaResult}）<br>`;
-            result += `變爻：第 ${bianyaoResult} 爻（${bianyao} % 6 = ${bianyaoResult}）<br>`;
-        
-            // 計算變卦
-            let changedLines = lines.split('');
-            changedLines[bianyaoResult - 1] = changedLines[bianyaoResult - 1] === '1' ? '0' : '1';
-            const changedLowerTrigram = guaNames[parseInt(changedLines.slice(0, 3).join(''), 2)];
-            const changedUpperTrigram = guaNames[parseInt(changedLines.slice(3).join(''), 2)];
-            const changedHexagram = getHexagramByTrigrams(changedLowerTrigram, changedUpperTrigram);
-        
-            result += `<br>變卦：${changedHexagram.name}<br>`;
-            result += `下卦：${changedLowerTrigram}<br>`;
-            result += `上卦：${changedUpperTrigram}<br>`;
-        
-            document.getElementById('result').innerHTML = result;
-        
-            // 繪製卦象
-            drawHexagram(lines, bianyaoResult - 1);
-        }
+    const changedLowerTrigram = Object.keys(hexagrams8).find(key => hexagrams8[key]["二進制"] === changedBinary.slice(0, 3));
+    const changedUpperTrigram = Object.keys(hexagrams8).find(key => hexagrams8[key]["二進制"] === changedBinary.slice(3));
+    const changedHexagram = getHexagram(changedLowerTrigram, changedUpperTrigram);
+
+    let result = `問題：${question}<br><br>`;
+    result += `本卦：${originalHexagram ? originalHexagram.name : '未知'}<br>`;
+    result += `下卦：${lowerTrigram}（${hexagrams8[lowerTrigram].meaning}）<br>`;
+    result += `上卦：${upperTrigram}（${hexagrams8[upperTrigram].meaning}）<br>`;
+    result += `本卦含義：${originalHexagram ? originalHexagram.meaning : '未知'}<br>`;
+    result += `<br>變爻：第 ${changedPosition} 爻<br>`;
+    result += `變卦：${changedHexagram ? changedHexagram.name : '未知'}<br>`;
+    result += `下卦：${changedLowerTrigram}（${hexagrams8[changedLowerTrigram].meaning}）<br>`;
+    result += `上卦：${changedUpperTrigram}（${hexagrams8[changedUpperTrigram].meaning}）<br>`;
+    result += `變卦含義：${changedHexagram ? changedHexagram.meaning : '未知'}<br><br>`;
+    
+    // 新增 AI 解讀部分
+    result += '<div id="ai-interpretation">AI 解讀生成中，請稍候...</div>';
+    
+    document.getElementById('result').innerHTML = result;
+    drawHexagram(binaryString, changedPosition - 1);
+
+    // 獲取並顯示 Gemini 解讀
+    if (originalHexagram && changedHexagram) {
+        const interpretation = await getGeminiInterpretation(question, originalHexagram, changedHexagram);
+        document.getElementById('ai-interpretation').innerHTML = `
+            <h3>AI 解讀參考</h3>
+            <div style="white-space: pre-line">${interpretation}</div>
+        `;
+    }
+}
+
     </script>
 </body>
 </html>
