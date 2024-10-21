@@ -3,134 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>增強版數字占卜 v0.2-241021</title>
+    <title>增強版數字占卜 v0.2-241021v3</title>
     <style>
+        <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        color: #333;
+        line-height: 1.6;
+        padding: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    h1 {
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .question-section, .input-section, .result-section, .instruction {
+        background-color: #fff;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    textarea, input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    button {
+        background-color: #3498db;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    button:hover {
+        background-color: #2980b9;
+    }
+
+    .hexagram-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        margin: 20px 0;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .hexagram-column {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0 20px;
+    }
+
+    .trigram-icon {
+        font-size: 48px;
+        margin: 10px 0;
+        color: #2c3e50;
+    }
+
+    .hexagram-description {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        margin-top: 10px;
+        font-weight: bold;
+        color: #34495e;
+    }
+
+    #result {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-top: 20px;
+    }
+
+    #result h3, #result h4 {
+        color: #2c3e50;
+        margin-top: 20px;
+    }
+
+    #result p {
+        margin-bottom: 10px;
+    }
+
+    #ai-interpretation {
+        background-color: #e8f4f8;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 20px;
+    }
+
+    @media (max-width: 600px) {
         body {
-            font-family: Arial, sans-serif;
-            background-color: black;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        h1 {
-            font-size: 24px;
-        }
-        .question-section, .input-section, .result-section, .instruction {
-            margin: 20px 0;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 18px;
-        }
-        textarea, input {
-            width: 100%;
             padding: 10px;
-            font-size: 16px;
-            border: 1px solid #fff;
-            background-color: #333;
-            color: white;
-            border-radius: 5px;
         }
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-        .buttons {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        button {
-            padding: 12px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .hexagram {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-        }
-        .hexagram-column {
-            display: flex;
+
+        .hexagram-container {
             flex-direction: column;
             align-items: center;
-            margin: 0 20px;
         }
-        .line {
-            width: 100px;
-            height: 20px;
-            margin: 5px 0;
-            background-color: white;
-        }
-        .line.yin {
-            display: flex;
-            justify-content: space-between;
-        }
-        .line.yin::before, .line.yin::after {
-            content: "";
-            display: block;
-            width: 45%;
-            height: 100%;
-            background-color: white;
-        }
-        .changed {
-            background-color: red;
-        }
-        .hexagram {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            margin: 20px 0;
-        }
+
         .hexagram-column {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 0 20px;
-        }
-        .hexagram-spacer {
-            width: 2px;
-            height: 100px;
-            background-color: #ccc;
-            margin: 0 20px;
-        }
-        .trigram-icon {
-            font-size: 48px;
             margin: 10px 0;
         }
-        .hexagram-description {
-            display: flex;
-            justify-content: space-around;
-            width: 100%;
-            margin-top: 10px;
-        }
-        @media (max-width: 480px) {
-            body {
-                padding: 10px;
-            }
-            h1 {
-                font-size: 20px;
-            }
-            input, textarea {
-                font-size: 16px;
-            }
-            button {
-                padding: 10px 15px;
-                font-size: 14px;
-            }
-        }
+    }
+</style>
     </style>
 </head>
 <body>
@@ -832,41 +832,42 @@ function drawHexagram(originalUpperTrigram, originalLowerTrigram, changedUpperTr
     const hexagramDiv = document.getElementById('hexagram');
     hexagramDiv.innerHTML = '';
     
+    const container = document.createElement('div');
+    container.className = 'hexagram-container';
+
+    // 創建本卦列
     const originalColumn = document.createElement('div');
     originalColumn.className = 'hexagram-column';
-    const changedColumn = document.createElement('div');
-    changedColumn.className = 'hexagram-column';
-
-    // 原卦
+    
     const originalUpperIcon = document.createElement('div');
     originalUpperIcon.className = 'trigram-icon';
     originalUpperIcon.textContent = hexagrams8[originalUpperTrigram].icon;
-    originalColumn.appendChild(originalUpperIcon);
-
+    
     const originalLowerIcon = document.createElement('div');
     originalLowerIcon.className = 'trigram-icon';
     originalLowerIcon.textContent = hexagrams8[originalLowerTrigram].icon;
+    
+    originalColumn.appendChild(originalUpperIcon);
     originalColumn.appendChild(originalLowerIcon);
 
-    // 變卦
+    // 創建變卦列
+    const changedColumn = document.createElement('div');
+    changedColumn.className = 'hexagram-column';
+    
     const changedUpperIcon = document.createElement('div');
     changedUpperIcon.className = 'trigram-icon';
     changedUpperIcon.textContent = hexagrams8[changedUpperTrigram].icon;
-    changedColumn.appendChild(changedUpperIcon);
-
+    
     const changedLowerIcon = document.createElement('div');
     changedLowerIcon.className = 'trigram-icon';
     changedLowerIcon.textContent = hexagrams8[changedLowerTrigram].icon;
+    
+    changedColumn.appendChild(changedUpperIcon);
     changedColumn.appendChild(changedLowerIcon);
 
-    // 添加間隔
-    const spacer = document.createElement('div');
-    spacer.className = 'hexagram-spacer';
-
-    // 按指定順序添加到主div
-    hexagramDiv.appendChild(originalColumn);
-    hexagramDiv.appendChild(spacer);
-    hexagramDiv.appendChild(changedColumn);
+    // 添加列到容器
+    container.appendChild(originalColumn);
+    container.appendChild(changedColumn);
 
     // 添加說明文字
     const description = document.createElement('div');
@@ -875,7 +876,11 @@ function drawHexagram(originalUpperTrigram, originalLowerTrigram, changedUpperTr
         <div>本卦</div>
         <div>變卦</div>
     `;
-    hexagramDiv.appendChild(description);
+
+    // 將所有元素添加到主div
+      hexagramDiv.appendChild(description);
+    hexagramDiv.appendChild(container);
+
 }
 
 async function calculate() {
