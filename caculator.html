@@ -852,18 +852,23 @@ async function calculate() {
     const changedUpperTrigram = Object.keys(hexagrams8).find(key => hexagrams8[key]["二進制"] === changedBinary.slice(3));
     const changedHexagram = getHexagram(changedLowerTrigram, changedUpperTrigram);
 
-    let result = `問題：${question}<br><br>`;
-    result += `本卦：${originalHexagram ? originalHexagram.name : '未知'}<br>`;
-    result += `下卦：${lowerTrigram}（${hexagrams8[lowerTrigram].meaning}）<br>`;
-    result += `上卦：${upperTrigram}（${hexagrams8[upperTrigram].meaning}）<br>`;
-    result += `本卦含義：${originalHexagram ? originalHexagram.meaning : '未知'}<br>`;
-    result += `<br>變爻：第 ${changedPosition} 爻<br>`;
-    result += `變卦：${changedHexagram ? changedHexagram.name : '未知'}<br>`;
-    result += `下卦：${changedLowerTrigram}（${hexagrams8[changedLowerTrigram].meaning}）<br>`;
-    result += `上卦：${changedUpperTrigram}（${hexagrams8[changedUpperTrigram].meaning}）<br>`;
-    result += `變卦含義：${changedHexagram ? changedHexagram.meaning : '未知'}<br><br>`;
+    let result = `<h3>問題：${question}</h3>`;
+    result += `<h4>本卦：${originalHexagram ? originalHexagram.name : '未知'}</h4>`;
+    result += `<p>${hexagrams8[upperTrigram].icon}（上卦：${upperTrigram}）</p>`;
+    result += `<p>${hexagrams8[lowerTrigram].icon}（下卦：${lowerTrigram}）</p>`;
+    result += `<p>屬性：${hexagrams8[upperTrigram].屬性}/${hexagrams8[lowerTrigram].屬性}</p>`;
+    result += `<p>顏色：${hexagrams8[upperTrigram].顏色}/${hexagrams8[lowerTrigram].顏色}</p>`;
+    result += `<p>角色：${hexagrams8[upperTrigram].角色}/${hexagrams8[lowerTrigram].角色}</p>`;
+    result += `<p>本卦含義：${originalHexagram ? originalHexagram.meaning : '未知'}</p>`;
+    result += `<h4>變爻：第 ${changedPosition} 爻</h4>`;
+    result += `<h4>變卦：${changedHexagram ? changedHexagram.name : '未知'}</h4>`;
+    result += `<p>${hexagrams8[changedUpperTrigram].icon}（上卦：${changedUpperTrigram}）</p>`;
+    result += `<p>${hexagrams8[changedLowerTrigram].icon}（下卦：${changedLowerTrigram}）</p>`;
+    result += `<p>屬性：${hexagrams8[changedUpperTrigram].屬性}/${hexagrams8[changedLowerTrigram].屬性}</p>`;
+    result += `<p>顏色：${hexagrams8[changedUpperTrigram].顏色}/${hexagrams8[changedLowerTrigram].顏色}</p>`;
+    result += `<p>角色：${hexagrams8[changedUpperTrigram].角色}/${hexagrams8[changedLowerTrigram].角色}</p>`;
+    result += `<p>變卦含義：${changedHexagram ? changedHexagram.meaning : '未知'}</p>`;
     
-    // 新增 AI 解讀部分
     result += '<div id="ai-interpretation">AI 解讀生成中，請稍候...</div>';
     
     document.getElementById('result').innerHTML = result;
@@ -871,11 +876,12 @@ async function calculate() {
 
     // 獲取並顯示 Gemini 解讀
     if (originalHexagram && changedHexagram) {
-        const interpretation = await getGeminiInterpretation(question, originalHexagram, changedHexagram);
-        document.getElementById('ai-interpretation').innerHTML = `
-            <h3>AI 解讀參考</h3>
-            <div style="white-space: pre-line">${interpretation}</div>
-        `;
+        getGeminiInterpretation(question, originalHexagram, changedHexagram).then(interpretation => {
+            document.getElementById('ai-interpretation').innerHTML = `
+                <h3>AI 解讀參考</h3>
+                <div style="white-space: pre-line">${interpretation}</div>
+            `;
+        });
     }
 }
 
