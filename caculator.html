@@ -88,6 +88,34 @@
         .changed {
             background-color: red;
         }
+        .hexagram {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin: 20px 0;
+        }
+        .hexagram-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 20px;
+        }
+        .hexagram-spacer {
+            width: 2px;
+            height: 100px;
+            background-color: #ccc;
+            margin: 0 20px;
+        }
+        .trigram-icon {
+            font-size: 48px;
+            margin: 10px 0;
+        }
+        .hexagram-description {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 10px;
+        }
         @media (max-width: 480px) {
             body {
                 padding: 10px;
@@ -800,30 +828,54 @@ async function getGeminiInterpretation(question, originalHexagram, changedHexagr
 }
       
       
-function drawHexagram(lines, changedLine) {
+function drawHexagram(originalUpperTrigram, originalLowerTrigram, changedUpperTrigram, changedLowerTrigram) {
     const hexagramDiv = document.getElementById('hexagram');
     hexagramDiv.innerHTML = '';
-
+    
     const originalColumn = document.createElement('div');
     originalColumn.className = 'hexagram-column';
     const changedColumn = document.createElement('div');
     changedColumn.className = 'hexagram-column';
 
-    lines.split('').forEach((line, index) => {
-        const originalLine = document.createElement('div');
-        originalLine.className = line === '1' ? 'line yang' : 'line yin';
-        if (index === changedLine) {
-            originalLine.classList.add('changed');
-        }
-        originalColumn.appendChild(originalLine);
+    // 原卦
+    const originalUpperIcon = document.createElement('div');
+    originalUpperIcon.className = 'trigram-icon';
+    originalUpperIcon.textContent = hexagrams8[originalUpperTrigram].icon;
+    originalColumn.appendChild(originalUpperIcon);
 
-        const changedLineElement = document.createElement('div');
-        changedLineElement.className = (index === changedLine) ? (line === '1' ? 'line yin' : 'line yang') : (line === '1' ? 'line yang' : 'line yin');
-        changedColumn.appendChild(changedLineElement);
-    });
+    const originalLowerIcon = document.createElement('div');
+    originalLowerIcon.className = 'trigram-icon';
+    originalLowerIcon.textContent = hexagrams8[originalLowerTrigram].icon;
+    originalColumn.appendChild(originalLowerIcon);
 
+    // 變卦
+    const changedUpperIcon = document.createElement('div');
+    changedUpperIcon.className = 'trigram-icon';
+    changedUpperIcon.textContent = hexagrams8[changedUpperTrigram].icon;
+    changedColumn.appendChild(changedUpperIcon);
+
+    const changedLowerIcon = document.createElement('div');
+    changedLowerIcon.className = 'trigram-icon';
+    changedLowerIcon.textContent = hexagrams8[changedLowerTrigram].icon;
+    changedColumn.appendChild(changedLowerIcon);
+
+    // 添加間隔
+    const spacer = document.createElement('div');
+    spacer.className = 'hexagram-spacer';
+
+    // 按指定順序添加到主div
     hexagramDiv.appendChild(originalColumn);
+    hexagramDiv.appendChild(spacer);
     hexagramDiv.appendChild(changedColumn);
+
+    // 添加說明文字
+    const description = document.createElement('div');
+    description.className = 'hexagram-description';
+    description.innerHTML = `
+        <div>本卦</div>
+        <div>變卦</div>
+    `;
+    hexagramDiv.appendChild(description);
 }
 
 async function calculate() {
@@ -872,7 +924,7 @@ async function calculate() {
     result += '<div id="ai-interpretation">AI 解讀生成中，請稍候...</div>';
     
     document.getElementById('result').innerHTML = result;
-    drawHexagram(binaryString, changedPosition - 1);
+    drawHexagram(upperTrigram, lowerTrigram, changedUpperTrigram, changedLowerTrigram);
 
     // 獲取並顯示 Gemini 解讀
     if (originalHexagram && changedHexagram) {
