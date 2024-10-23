@@ -834,10 +834,10 @@
 
     請用溫和積極的語氣，給予實用的參考建議。內容要避免過於具體或限制性的斷言，而是提供啟發性的思考方向。`;
 
-            const result = await window.gemini.generateText({
-                prompt: prompt,
-                max_output_tokens: 800
-            });
+        const result = await window.gemini.generateText({
+            prompt: prompt,
+            max_output_tokens: 800
+        });
 
             return result.response.text();
         } catch (error) {
@@ -902,35 +902,32 @@
 
     }
 
-    async function calculate() {
+    function calculate() {
         const question = document.getElementById('question').value;
         const xiagua = parseInt(document.getElementById('xiagua').value);
         const shanggua = parseInt(document.getElementById('shanggua').value);
         const bianyao = parseInt(document.getElementById('bianyao').value);
-
+    
         if (isNaN(xiagua) || isNaN(shanggua) || isNaN(bianyao)) {
             alert('請輸入有效的數字');
             return;
         }
-
-        const lowerTrigram = getTrigram(xiagua);      // 下卦
-        const upperTrigram = getTrigram(shanggua);    // 上卦
-
+    
+        const lowerTrigram = getTrigram(xiagua);
+        const upperTrigram = getTrigram(shanggua);
+    
         const originalHexagram = getHexagram(lowerTrigram, upperTrigram);
-        const binaryString = getBinaryFromTrigram(lowerTrigram) + getBinaryFromTrigram(upperTrigram);
-
-        console.log('下卦:', lowerTrigram, '二進制:', hexagrams8[lowerTrigram]["二進制"]);
-        console.log('上卦:', upperTrigram, '二進制:', hexagrams8[upperTrigram]["二進制"]);
-
-        const changedPosition = bianyao % 6 || 6;
+        const binaryString = getBinaryFromTrigram(upperTrigram) + getBinaryFromTrigram(lowerTrigram);
+    
+        const changedPosition = 6 - (bianyao % 6 || 6); // 變爻是從上往下數，因此要用 6 減去
         let changedBinary = binaryString.split('');
-        changedBinary[changedPosition - 1] = changedBinary[changedPosition - 1] === '1' ? '0' : '1';
+        changedBinary[changedPosition] = changedBinary[changedPosition] === '1' ? '0' : '1'; // 進行翻轉
         changedBinary = changedBinary.join('');
-
-        const changedLowerTrigram = Object.keys(hexagrams8).find(key => hexagrams8[key]["二進制"] === changedBinary.slice(0, 3));
-        const changedUpperTrigram = Object.keys(hexagrams8).find(key => hexagrams8[key]["二進制"] === changedBinary.slice(3));
+    
+        const changedUpperTrigram = Object.keys(hexagrams8).find(key => hexagrams8[key]["二進制"] === changedBinary.slice(0, 3));
+        const changedLowerTrigram = Object.keys(hexagrams8).find(key => hexagrams8[key]["二進制"] === changedBinary.slice(3));
         const changedHexagram = getHexagram(changedLowerTrigram, changedUpperTrigram);
-
+    
         let result = `<h3>問題：${question}</h3>`;
         result += `<h4>本卦：${originalHexagram ? originalHexagram.name : '未知'}</h4>`;
         result += `<p>${hexagrams8[upperTrigram].icon}（上卦：${upperTrigram}）</p>`;
@@ -939,7 +936,7 @@
         result += `<p>顏色：${hexagrams8[upperTrigram].顏色}/${hexagrams8[lowerTrigram].顏色}</p>`;
         result += `<p>角色：${hexagrams8[upperTrigram].角色}/${hexagrams8[lowerTrigram].角色}</p>`;
         result += `<p>本卦含義：${originalHexagram ? originalHexagram.meaning : '未知'}</p>`;
-        result += `<h4>變爻：第 ${changedPosition} 爻</h4>`;
+        result += `<h4>變爻：第 ${changedPosition + 1} 爻</h4>`;
         result += `<h4>變卦：${changedHexagram ? changedHexagram.name : '未知'}</h4>`;
         result += `<p>${hexagrams8[changedUpperTrigram].icon}（上卦：${changedUpperTrigram}）</p>`;
         result += `<p>${hexagrams8[changedLowerTrigram].icon}（下卦：${changedLowerTrigram}）</p>`;
@@ -947,12 +944,12 @@
         result += `<p>顏色：${hexagrams8[changedUpperTrigram].顏色}/${hexagrams8[changedLowerTrigram].顏色}</p>`;
         result += `<p>角色：${hexagrams8[changedUpperTrigram].角色}/${hexagrams8[changedLowerTrigram].角色}</p>`;
         result += `<p>變卦含義：${changedHexagram ? changedHexagram.meaning : '未知'}</p>`;
-        
+
         result += '<div id="ai-interpretation">AI 解讀生成中，請稍候...</div>';
         
         document.getElementById('result').innerHTML = result;
         drawHexagram(upperTrigram, lowerTrigram, changedUpperTrigram, changedLowerTrigram);
-
+    
         // 獲取並顯示 Gemini 解讀
         if (originalHexagram && changedHexagram) {
             getGeminiInterpretation(question, originalHexagram, changedHexagram).then(interpretation => {
