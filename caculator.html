@@ -173,72 +173,72 @@
     </div>
     
     <script>
-        const hexagrams8 = {
-            "乾卦": {
-                "icon": "☰",
-                "二進制": "111",
-                "meaning": "天、剛健、創造、領導、強勢",
-                "屬性": "天",
-                "顏色": "白色",
-                "角色": "領袖、創造者"
-            },
-            "兌卦": {
-                "icon": "☱",
-                "二進制": "110",
-                "meaning": "澤、喜悅、愉快、溝通",
-                "屬性": "澤",
-                "顏色": "金色",
-                "角色": "溝通者、和事佬"
-            },
-            "離卦": {
-                "icon": "☲",
-                "二進制": "101",
-                "meaning": "火、光明、依附、燦爛",
-                "屬性": "火",
-                "顏色": "紅色",
-                "角色": "照亮者、啟發者"
-            },
-            "震卦": {
-                "icon": "☳",
-                "二進制": "100",
-                "meaning": "雷、震動、驚動、變動",
-                "屬性": "雷",
-                "顏色": "綠色",
-                "角色": "改革者、變革者"
-            },
-            "巽卦": {
-                "icon": "☴",
-                "二進制": "011",
-                "meaning": "風、入侵、滲透、順從",
-                "屬性": "風",
-                "顏色": "青色",
-                "角色": "謀略者、協商者"
-            },
-            "坎卦": {
-                "icon": "☵",
-                "二進制": "010",
-                "meaning": "水、陷阱、危險、隱藏",
-                "屬性": "水",
-                "顏色": "黑色",
-                "角色": "守護者、冒險者"
-            },
-            "艮卦": {
-                "icon": "☶",
-                "二進制": "001",
-                "meaning": "山、靜止、阻止、安定",
-                "屬性": "山",
-                "顏色": "褐色",
-                "角色": "穩定者、守護者"
-            },
-            "坤卦": {
-                "icon": "☷",
-                "二進制": "000",
-                "meaning": "地、包容、順應、柔和、接受",
-                "屬性": "地",
-                "顏色": "黃色",
-                "角色": "支持者、保護者"
-            }
-        };
+    const hexagrams8 = {
+        "乾卦": {
+            "icon": "☰",
+            "二進制": "111",
+            "meaning": "天、剛健、創造、領導、強勢",
+            "屬性": "天",
+            "顏色": "白色",
+            "角色": "領袖、創造者"
+        },
+        "兌卦": {
+            "icon": "☱",
+            "二進制": "110",
+            "meaning": "澤、喜悅、愉快、溝通",
+            "屬性": "澤",
+            "顏色": "金色",
+            "角色": "溝通者、和事佬"
+        },
+        "離卦": {
+            "icon": "☲",
+            "二進制": "101",
+            "meaning": "火、光明、依附、燦爛",
+            "屬性": "火",
+            "顏色": "紅色",
+            "角色": "照亮者、啟發者"
+        },
+        "震卦": {
+            "icon": "☳",
+            "二進制": "100",
+            "meaning": "雷、震動、驚動、變動",
+            "屬性": "雷",
+            "顏色": "綠色",
+            "角色": "改革者、變革者"
+        },
+        "巽卦": {
+            "icon": "☴",
+            "二進制": "011",
+            "meaning": "風、入侵、滲透、順從",
+            "屬性": "風",
+            "顏色": "青色",
+            "角色": "謀略者、協商者"
+        },
+        "坎卦": {
+            "icon": "☵",
+            "二進制": "010",
+            "meaning": "水、陷阱、危險、隱藏",
+            "屬性": "水",
+            "顏色": "黑色",
+            "角色": "守護者、冒險者"
+        },
+        "艮卦": {
+            "icon": "☶",
+            "二進制": "001",
+            "meaning": "山、靜止、阻止、安定",
+            "屬性": "山",
+            "顏色": "褐色",
+            "角色": "穩定者、守護者"
+        },
+        "坤卦": {
+            "icon": "☷",
+            "二進制": "000",
+            "meaning": "地、包容、順應、柔和、接受",
+            "屬性": "地",
+            "顏色": "黃色",
+            "角色": "支持者、保護者"
+        }
+    };
 
     const hexagrams64 = [
         {
@@ -755,7 +755,6 @@
         }
     ];
 
-
     function randomize(id) {
         document.getElementById(id).value = String(Math.floor(Math.random() * 1000)).padStart(3, '0');
     }
@@ -770,46 +769,40 @@
     }
 
     function getTrigram(num) {
-        // 取得餘數 (0-7)
         const remainder = num % 8;
-
+        // 確保餘數是 1-8
+        const adjustedRemainder = remainder === 0 ? 8 : remainder;
         
-        // 重要：修改映射邏輯
-        // 對應關係：
-        // 餘數 1 -> 乾卦 (☰)
-        // 餘數 2 -> 兌卦 (☱)
-        // 餘數 3 -> 離卦 (☲)
-        // 餘數 4 -> 震卦 (☳)
-        // 餘數 5 -> 巽卦 (☴)
-        // 餘數 6 -> 坎卦 (☵)
-        // 餘數 7 -> 艮卦 (☶)
-        // 餘數 0 -> 坤卦 (☷)
-        
-        // 建立餘數到卦象的正確映射
-        const remainderToTrigram = {
-            1: "乾卦",
-            2: "兌卦",
-            3: "離卦",
-            4: "震卦",
-            5: "巽卦",
-            6: "坎卦",
-            7: "艮卦",
-            0: "坤卦"
+        // 修正映射邏輯，確保餘數對應正確的卦象
+        const trigramMapping = {
+            1: "乾卦", // ☰
+            2: "兌卦", // ☱
+            3: "離卦", // ☲
+            4: "震卦", // ☳
+            5: "巽卦", // ☴
+            6: "坎卦", // ☵
+            7: "艮卦", // ☶
+            8: "坤卦"  // ☷
         };
         
-        return remainderToTrigram[remainder];
+        return trigramMapping[adjustedRemainder];
     }
 
     function getHexagram(lower, upper) {
-        // 從 hexagrams8 獲取對應的二進制
+        // 獲取二進制
         const lowerBinary = hexagrams8[lower]["二進制"];
         const upperBinary = hexagrams8[upper]["二進制"];
         
-        // 組合完整的六爻二進制
-        const fullBinary = lowerBinary + upperBinary;
+        // 修正：下卦在右（低位），上卦在左（高位）
+        const fullBinary = upperBinary + lowerBinary;
         
-        // 在 hexagrams64 中查找匹配的卦象
-        return hexagrams64.find(h => h.binary === fullBinary);
+        // 在 64 卦中查找對應卦象
+        const hexagram = hexagrams64.find(h => {
+            // 確保二進制完全匹配
+            return h.lowerTrigram === lower && h.upperTrigram === upper;
+        });
+        
+        return hexagram;
     }
 
     function getBinaryFromTrigram(trigram) {
@@ -920,11 +913,14 @@
             return;
         }
 
-        const lowerTrigram = getTrigram(xiagua);
-        const upperTrigram = getTrigram(shanggua);
+        const lowerTrigram = getTrigram(xiagua);      // 下卦
+        const upperTrigram = getTrigram(shanggua);    // 上卦
 
         const originalHexagram = getHexagram(lowerTrigram, upperTrigram);
         const binaryString = getBinaryFromTrigram(lowerTrigram) + getBinaryFromTrigram(upperTrigram);
+
+        console.log('下卦:', lowerTrigram, '二進制:', hexagrams8[lowerTrigram]["二進制"]);
+        console.log('上卦:', upperTrigram, '二進制:', hexagrams8[upperTrigram]["二進制"]);
 
         const changedPosition = bianyao % 6 || 6;
         let changedBinary = binaryString.split('');
