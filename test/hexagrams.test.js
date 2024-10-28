@@ -1,5 +1,5 @@
 // hexagrams.test.js
-const hexagrams64 = require('../hexagram/hexagram_64.json'); // 替換成 hexagrams64.json 的實際路徑
+const hexagrams64 = require('../src/hexagram/hexagram_64.json'); // 替換成 hexagrams64.json 的實際路徑
 
 describe('Hexagrams 64 Test', () => {
   test('should have 64 unique hexagrams', () => {
