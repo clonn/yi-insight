@@ -9,11 +9,15 @@ A React-based I Ching consultation platform that provides insights through tradi
 - Modern interface with traditional wisdom
 - Support for both English and Traditional Chinese
 
+## Demo
+
+Experience Yi Insight live at: [https://clonn.github.io/yi-insight](https://clonn.github.io/yi-insight)
+
 ## Installation
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/yi-insight.git
+git clone https://github.com/clonn/yi-insight.git
 cd yi-insight
 ```
 
@@ -42,7 +46,7 @@ This project is configured for GitHub Pages deployment:
 1. Ensure your `package.json` has the correct homepage:
 ```json
 {
-  "homepage": "https://yourusername.github.io/yi-insight"
+  "homepage": "https://clonn.github.io/yi-insight"
 }
 ```
 
