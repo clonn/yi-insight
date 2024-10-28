@@ -16,12 +16,14 @@ Experience Yi Insight live at: [https://clonn.github.io/yi-insight](https://clon
 ## Installation
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/clonn/yi-insight.git
 cd yi-insight
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
@@ -67,18 +69,3 @@ The site will be available at `https://yourusername.github.io/yi-insight`
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
-```
-
-Key updates made:
-- Added concise installation steps
-- Included common npm scripts in a single block
-- Added specific GitHub Pages deployment instructions
-- Included a Technologies section
-- Added standard Contributing and License sections
-- Kept the format clean and straightforward for developers
-
-Remember to replace `yourusername` with your actual GitHub username before pushing these changes.
