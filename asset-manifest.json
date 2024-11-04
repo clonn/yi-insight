@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/yi-insight/static/css/main.070f2fed.css",
-    "main.js": "/yi-insight/static/js/main.500de59d.js",
+    "main.js": "/yi-insight/static/js/main.196258c3.js",
     "static/js/453.27b9f2dc.chunk.js": "/yi-insight/static/js/453.27b9f2dc.chunk.js",
     "index.html": "/yi-insight/index.html",
     "main.070f2fed.css.map": "/yi-insight/static/css/main.070f2fed.css.map",
-    "main.500de59d.js.map": "/yi-insight/static/js/main.500de59d.js.map",
+    "main.196258c3.js.map": "/yi-insight/static/js/main.196258c3.js.map",
     "453.27b9f2dc.chunk.js.map": "/yi-insight/static/js/453.27b9f2dc.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.070f2fed.css",
-    "static/js/main.500de59d.js"
+    "static/js/main.196258c3.js"
   ]
 }
