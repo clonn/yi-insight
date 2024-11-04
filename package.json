@@ -1,6 +1,6 @@
 {
   "name": "yi-insight",
-  "version": "1.0.1-betav1029",
+  "version": "1.1.0-betav1105",
   "public": true,
   "dependencies": {
     "@testing-library/user-event": "^13.5.0",
