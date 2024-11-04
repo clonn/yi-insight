@@ -23,7 +23,7 @@ export const QuestionStep = ({ question, setQuestion, onNext }) => (
     <textarea 
       value={question} 
       onChange={(e) => setQuestion(e.target.value)} 
-      placeholder="在此輸入您的問題（可使用鍵盤或語音輸入）"
+      placeholder="在此輸入您的問題，請誠心默念，越完整越好"
       className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
     />
     <div className="flex justify-end mt-4">
