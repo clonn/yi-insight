@@ -50,6 +50,8 @@ export const calculateResult = async ({
         <div class="bg-gray-50 p-4 rounded-lg">
           <h3 class="text-xl font-semibold mb-2">問題</h3>
           <p>${question}</p>
+          <h4 class="text-gray-600 text-sm font-medium mt-4 mb-1">輸入卜卦數字</h4>
+          <p class="text-gray-500 text-sm">下卦：${xiagua} / 上卦：${shanggua} / 變爻：${bianyao}</p>
         </div>
 
         <div class="bg-gray-50 p-4 rounded-lg">
