@@ -13,7 +13,7 @@ export const CrystalAds = () => (
     >
       <div className="relative">
         <img
-          src={`yi-insight/images/ads/ads_cristal_202411${Math.random() < 0.5 ? '_2' : ''}.png`}
+          src={`images/ads/ads_cristal_202411${Math.random() < 0.5 ? '_2' : ''}.png`}
           alt="UniJane．有你珍好｜輕珠寶｜生命靈數水晶設計"
           className="w-full"
         />
