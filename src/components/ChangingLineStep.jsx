@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { CrystalAds } from './CrystalAds';
 
 export const ChangingLineStep = ({ 
   bianyao, 
@@ -13,7 +14,7 @@ export const ChangingLineStep = ({
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0, y: -20 }}
     transition={{ duration: 0.3 }}
-    className="space-y-4 mb-6"
+    className="space-y-4"
   >
     <div className="flex items-center gap-4">
       <label className="w-20">變爻：</label>
@@ -46,5 +47,6 @@ export const ChangingLineStep = ({
         計算結果
       </button>
     </div>
+    <CrystalAds />
   </motion.div>
 ); 
