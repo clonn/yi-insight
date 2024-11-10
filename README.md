@@ -34,14 +34,9 @@ npm install
 # Start development server
 npm start
 
-# Build for production
-npm run build
-
-# Deploy to GitHub Pages
-npm run deploy
 ```
 
-The site will be available at `https://yourusername.github.io/yi-insight`
+The site will be available at `http://localhost:3000`
 
 ## Technologies Used
 
