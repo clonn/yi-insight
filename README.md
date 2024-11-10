@@ -11,7 +11,7 @@ A React-based I Ching consultation platform that provides insights through tradi
 
 ## Demo
 
-Experience Yi Insight live at: [https://clonn.github.io/yi-insight](https://clonn.github.io/yi-insight)
+Experience Yi Insight live at: https://yi-insight.exma-square.co/
 
 ## Installation
 
