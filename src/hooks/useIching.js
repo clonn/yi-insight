@@ -55,29 +55,29 @@ export const useIching = () => {
       const filename = `易經結果_${date}_${hashString}.png`;
 
       // For mobile devices, use the Web Share API to save to photos
-      if (navigator.share && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+      try {
         const blob = await (await fetch(image)).blob();
         const file = new File([blob], filename, { type: 'image/png' });
-        
-        try {
-          await navigator.share({
-            files: [file],
+        const filesArray = [file];
+        if (navigator.canShare && navigator.canShare({ files: filesArray })) {
+          navigator.share({
+            files: filesArray,
             title: '易經結果',
-          });
-        } catch (err) {
-          // Fallback to download if share fails
-          const link = document.createElement('a');
-          link.download = filename;
-          link.href = image;
-          link.click();
+            text: filename,
+          })
+          .then(() => console.log('Share was successful.'))
+          .catch((error) => console.log('Sharing failed', error));
+        } else {
+          console.log(`Your system doesn't support sharing files.`);
         }
-      } else {
-        // For desktop, use regular download
+      } catch (err) {
+        // Fallback to download if share fails
         const link = document.createElement('a');
         link.download = filename;
         link.href = image;
         link.click();
       }
+
     } catch (error) {
       console.error('Screenshot failed:', error);
       alert('截圖儲存失敗，請稍後再試');
