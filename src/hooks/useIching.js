@@ -34,52 +34,58 @@ export const useIching = () => {
   const handleSaveResult = async () => {
     try {
       const resultElement = document.getElementById('result-container');
-      if (!resultElement) return;
+      if (!resultElement) {
+        console.error('Result container not found');
+        return;
+      }
 
+      // 使用 html2canvas 將結果轉換為圖片
       const canvas = await html2canvas(resultElement, {
         backgroundColor: '#ffffff',
-        scale: 2,
+        scale: 2, // 提高圖片品質
+        useCORS: true, // 允許跨域圖片
+        logging: false, // 關閉除錯日誌
       });
 
-      const image = canvas.toDataURL('image/png');
+      // 轉換為 PNG 格式
+      const image = canvas.toDataURL('image/png', 1.0);
 
-      // Format date as YYYYMMDD
+      // 根據日期和問題生成唯一檔案名稱
       const date = new Date().toISOString().slice(0,10).replace(/-/g,'');
-      // Generate hash from question and date
-      const hashInput = question + date;
+      const hashInput = `${question}_${date}`;
       const hash = Array.from(hashInput).reduce((acc, char) => {
         return ((acc << 5) - acc) + char.charCodeAt(0) | 0;
       }, 0);
       const hashString = Math.abs(hash).toString(16).substring(0, 8);
-      
       const filename = `易經結果_${date}_${hashString}.png`;
 
-      // For mobile devices, use the Web Share API to save to photos
+      // 嘗試使用 Web Share API（主要用於行動裝置）
       try {
-        const blob = await (await fetch(image)).blob();
+        const blob = await fetch(image).then(res => res.blob());
         const file = new File([blob], filename, { type: 'image/png' });
-        const filesArray = [file];
-        if (navigator.canShare && navigator.canShare({ files: filesArray })) {
-          navigator.share({
-            files: filesArray,
+        
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            files: [file],
             title: '易經結果',
             text: filename,
-          })
-          .then(() => console.log('Share was successful.'))
-          .catch((error) => console.log('Sharing failed', error));
-        } else {
-          console.log(`Your system doesn't support sharing files.`);
+          });
+          console.log('分享成功');
+          return;
         }
       } catch (err) {
-        // Fallback to download if share fails
-        const link = document.createElement('a');
-        link.download = filename;
-        link.href = image;
-        link.click();
+        console.log('Web Share API 不可用，切換至下載模式');
       }
 
+      // 如果 Web Share API 不可用或失敗，則使用下載方式
+      const link = document.createElement('a');
+      link.download = filename;
+      link.href = image;
+      link.click();
+      console.log('圖片已下載');
+
     } catch (error) {
-      console.error('Screenshot failed:', error);
+      console.error('儲存失敗:', error);
       alert('截圖儲存失敗，請稍後再試');
     }
   };
@@ -109,4 +115,4 @@ export const useIching = () => {
       handleSaveResult
     }
   };
-}; 
+};
