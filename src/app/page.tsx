@@ -38,9 +38,9 @@ export default function Home(): React.JSX.Element {
         setAiInterpretation: actions.setAiInterpretation
       });
       
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Calculation error:', error);
-      alert(error?.message);
+      alert(error instanceof Error ? error.message : '計算過程發生錯誤');
     } finally {
       console.log('Calculation finished');
       actions.setIsCalculating(false);
