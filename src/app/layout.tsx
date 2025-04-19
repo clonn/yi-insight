@@ -1,5 +1,7 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
+import { Header } from '@/components/Header';
+import { Toaster } from "@/components/ui/toaster"
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -15,7 +17,17 @@ export default function RootLayout({
 }): React.JSX.Element {
   return (
     <html lang="zh-TW">
-      <body className={inter.className}>{children}</body>
+      <head>
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+      </head>
+      <body className={inter.className}>
+        <Header />
+        <main className="min-h-screen">
+          {children}
+        </main>
+        <Toaster />
+      </body>
     </html>
   );
 }

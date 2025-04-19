@@ -2,18 +2,20 @@
 
 import { useState, useEffect } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { redirect } from 'next/navigation';
-import LoginModal from '../components/LoginModal';
+import { useRouter } from 'next/navigation';
+import LoginModal from './components/LoginModal';
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('請登入後查看完整內容');
   const supabase = createClientComponentClient();
+  const router = useRouter();
 
   // Check session on client side
   const checkSession = async () => {
     const { data: { session } } = await supabase.auth.getSession();
     if (session) {
-      redirect('/dashboard');
+      router.push('/dashboard');
     }
   };
 
@@ -22,7 +24,32 @@ export default function Home() {
     checkSession();
   }, []);
 
-  const handleOpenModal = () => {
+  const handleOpenModal = (type: string) => {
+    let message = '請登入後查看完整內容';
+    switch(type) {
+      case 'fortune':
+        message = '登入後查看您的專屬今日運勢分析';
+        break;
+      case 'daily':
+        message = '登入後獲取每日運勢詳細解讀';
+        break;
+      case 'love':
+        message = '登入後查看您的姻緣分析和桃花運';
+        break;
+      case 'career':
+        message = '登入後獲取事業財運詳細指導';
+        break;
+      case 'premium':
+        message = '登入後解鎖專業命理解讀服務';
+        break;
+      case 'history':
+        message = '登入後查看您的歷史解讀記錄';
+        break;
+      case 'profile':
+        message = '登入後管理您的個人資料和設置';
+        break;
+    }
+    setModalMessage(message);
     setIsModalOpen(true);
   };
 
@@ -37,7 +64,7 @@ export default function Home() {
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold">梅花易數</h1>
           <div className="flex space-x-4">
-            <button className="text-white" onClick={handleOpenModal}>
+            <button className="text-white" onClick={() => handleOpenModal('notification')}>
               <i className="fas fa-bell"></i>
             </button>
           </div>
@@ -77,7 +104,7 @@ export default function Home() {
           </div>
           <button 
             className="w-full bg-indigo-600 text-white py-3 rounded-lg font-medium"
-            onClick={handleOpenModal}
+            onClick={() => handleOpenModal('fortune')}
           >
             查看今日運勢
           </button>
@@ -85,25 +112,25 @@ export default function Home() {
 
         {/* Feature Grid */}
         <div className="grid grid-cols-4 gap-4 mb-6">
-          <div className="text-center cursor-pointer" onClick={handleOpenModal}>
+          <div className="text-center cursor-pointer" onClick={() => handleOpenModal('daily')}>
             <div className="bg-purple-100 rounded-full w-14 h-14 flex items-center justify-center mx-auto mb-2">
               <i className="fas fa-calendar-alt text-purple-600 text-xl"></i>
             </div>
             <span className="text-xs">每日運勢</span>
           </div>
-          <div className="text-center cursor-pointer" onClick={handleOpenModal}>
+          <div className="text-center cursor-pointer" onClick={() => handleOpenModal('love')}>
             <div className="bg-blue-100 rounded-full w-14 h-14 flex items-center justify-center mx-auto mb-2">
               <i className="fas fa-heart text-blue-600 text-xl"></i>
             </div>
             <span className="text-xs">姻緣分析</span>
           </div>
-          <div className="text-center cursor-pointer" onClick={handleOpenModal}>
+          <div className="text-center cursor-pointer" onClick={() => handleOpenModal('career')}>
             <div className="bg-green-100 rounded-full w-14 h-14 flex items-center justify-center mx-auto mb-2">
               <i className="fas fa-briefcase text-green-600 text-xl"></i>
             </div>
             <span className="text-xs">事業財運</span>
           </div>
-          <div className="text-center cursor-pointer" onClick={handleOpenModal}>
+          <div className="text-center cursor-pointer" onClick={() => handleOpenModal('personality')}>
             <div className="bg-yellow-100 rounded-full w-14 h-14 flex items-center justify-center mx-auto mb-2">
               <i className="fas fa-user-alt text-yellow-600 text-xl"></i>
             </div>
@@ -118,7 +145,7 @@ export default function Home() {
           <p className="text-gray-600 mb-4">現代梅花易數結合心理學與統計學，為您提供更科學、準確的生活指引。</p>
           <button 
             className="w-full border border-indigo-600 text-indigo-600 py-3 rounded-lg font-medium"
-            onClick={handleOpenModal}
+            onClick={() => handleOpenModal('intro')}
           >
             了解更多
           </button>
@@ -129,7 +156,7 @@ export default function Home() {
         <div className="space-y-4">
           <div 
             className="bg-white rounded-2xl shadow-md p-4 flex items-center cursor-pointer"
-            onClick={handleOpenModal}
+            onClick={() => handleOpenModal('yearly')}
           >
             <div className="bg-indigo-100 rounded-lg w-12 h-12 flex items-center justify-center mr-4">
               <i className="fas fa-star text-indigo-600"></i>
@@ -142,7 +169,7 @@ export default function Home() {
           </div>
           <div 
             className="bg-white rounded-2xl shadow-md p-4 flex items-center cursor-pointer"
-            onClick={handleOpenModal}
+            onClick={() => handleOpenModal('love-special')}
           >
             <div className="bg-pink-100 rounded-lg w-12 h-12 flex items-center justify-center mr-4">
               <i className="fas fa-heart text-pink-600"></i>
@@ -161,13 +188,13 @@ export default function Home() {
           <div className="flex space-x-4 justify-center">
             <button 
               className="bg-indigo-600 text-white py-3 px-6 rounded-lg font-medium w-1/2"
-              onClick={handleOpenModal}
+              onClick={() => handleOpenModal('login')}
             >
               登入
             </button>
             <button 
               className="border border-indigo-600 text-indigo-600 py-3 px-6 rounded-lg font-medium w-1/2"
-              onClick={handleOpenModal}
+              onClick={() => handleOpenModal('register')}
             >
               註冊
             </button>
@@ -182,22 +209,22 @@ export default function Home() {
             <i className="fas fa-home text-xl mb-1"></i>
             <span className="text-xs">首頁</span>
           </div>
-          <div className="flex flex-col items-center text-gray-500 cursor-pointer" onClick={handleOpenModal}>
+          <div className="flex flex-col items-center text-gray-500 cursor-pointer" onClick={() => handleOpenModal('discover')}>
             <i className="fas fa-compass text-xl mb-1"></i>
             <span className="text-xs">發現</span>
           </div>
-          <div className="flex flex-col items-center text-gray-500 cursor-pointer" onClick={handleOpenModal}>
+          <div className="flex flex-col items-center text-gray-500 cursor-pointer" onClick={() => handleOpenModal('history')}>
             <i className="fas fa-history text-xl mb-1"></i>
             <span className="text-xs">歷史</span>
           </div>
-          <div className="flex flex-col items-center text-gray-500 cursor-pointer" onClick={handleOpenModal}>
+          <div className="flex flex-col items-center text-gray-500 cursor-pointer" onClick={() => handleOpenModal('profile')}>
             <i className="fas fa-user text-xl mb-1"></i>
             <span className="text-xs">我的</span>
           </div>
         </div>
       </footer>
 
-      <LoginModal isOpen={isModalOpen} onClose={handleCloseModal} />
+      <LoginModal isOpen={isModalOpen} onClose={handleCloseModal} message={modalMessage} />
     </div>
   );
-}
+} 
