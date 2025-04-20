@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
-import LoginModal from './components/LoginModal';
+import LoginModal from '../src/app/components/LoginModal';
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);

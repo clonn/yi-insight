@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>梅花易数 - 算命结果</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            max-width: 390px; /* iPhone 15 Pro width */
+            margin: 0 auto;
+            height: 100vh;
+            background-color: #f8f7ff;
+        }
+        .header {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+        }
+        .fortune-card {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        .hexagram-large {
+            width: 100px;
+            height: 100px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="20" width="80" height="10" fill="%23333"/><rect x="10" y="40" width="80" height="10" fill="%23333"/><rect x="10" y="60" width="35" height="10" fill="%23333"/><rect x="55" y="60" width="35" height="10" fill="%23333"/><rect x="10" y="80" width="80" height="10" fill="%23333"/></svg>');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            margin: 0 auto;
+        }
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            background-color: #e5e7eb;
+        }
+        .progress-value {
+            height: 8px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="flex flex-col h-full">
+    <!-- 顶部导航栏 -->
+    <header class="header p-6 pt-12">
+        <div class="flex items-center mb-4">
+            <button class="mr-4 text-white"><i class="fas fa-arrow-left"></i></button>
+            <h1 class="text-xl font-bold">今日命理分析</h1>
+        </div>
+        <div class="text-sm opacity-90">2023年10月15日 · 农历九月初一</div>
+    </header>
+
+    <!-- 主要内容区 -->
+    <main class="flex-grow p-6 overflow-y-auto">
+        <!-- 卦象展示 -->
+        <div class="fortune-card p-6 mb-6 text-center">
+            <div class="hexagram-large mb-4"></div>
+            <h2 class="text-xl font-bold mb-2">泽火革卦</h2>
+            <p class="text-gray-600 mb-4">兑上离下</p>
+            <div class="text-sm text-gray-500 mb-2">卦辞</div>
+            <p class="text-lg font-medium mb-4">革，己日乃孚，元亨利贞，悔亡。</p>
+            <div class="grid grid-cols-2 gap-4 text-center">
+                <div>
+                    <div class="text-sm text-gray-500 mb-1">卦象五行</div>
+                    <div class="font-medium">金火</div>
+                </div>
+                <div>
+                    <div class="text-sm text-gray-500 mb-1">卦象方位</div>
+                    <div class="font-medium">西南</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 运势评分 -->
+        <div class="fortune-card p-6 mb-6">
+            <h3 class="text-lg font-semibold mb-4">今日运势评分</h3>
+            <div class="space-y-4">
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="font-medium">财运</span>
+                        <span class="text-yellow-500 font-bold">85%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-value bg-yellow-500" style="width: 85%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="font-medium">事业</span>
+                        <span class="text-green-500 font-bold">92%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-value bg-green-500" style="width: 92%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="font-medium">感情</span>
+                        <span class="text-red-500 font-bold">78%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-value bg-red-500" style="width: 78%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="font-medium">健康</span>
+                        <span class="text-blue-500 font-bold">88%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-value bg-blue-500" style="width: 88%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 详细解读 -->
+        <div class="fortune-card p-6 mb-6">
+            <h3 class="text-lg font-semibold mb-4">详细解读</h3>
+            <div class="space-y-4">
+                <div>
+                    <h4 class="font-medium text-indigo-700 mb-2">总体运势</h4>
+                    <p class="text-gray-700">今日泽火革卦显示您正处于变革时期，适合做出改变和调整。整体运势较好，尤其在事业方面有突破机会。</p>
+                </div>
+                <div>
+                    <h4 class="font-medium text-indigo-700 mb-2">事业财运</h4>
+                    <p class="text-gray-700">事业上有贵人相助，可能获得意外的合作机会或项目推进。财运方面，投资宜稳健，不宜冒进，可能有小额收益。</p>
+                </div>
+                <div>
+                    <h4 class="font-medium text-indigo-700 mb-2">感情运势</h4>
+                    <p class="text-gray-700">感情方面需要注意沟通方式，易产生误会。单身者可能遇到新的缘分，但需要主动把握。已有伴侣的人应避免小事引发争执。</p>
+                </div>
+                <div>
+                    <h4 class="font-medium text-indigo-700 mb-2">健康提示</h4>
+                    <p class="text-gray-700">健康状况良好，但需注意休息，避免过度劳累。饮食宜清淡，多补充水分，适当运动有助于提升精神状态。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 吉凶宜忌 -->
+        <div class="fortune-card p-6 mb-6">
+            <h3 class="text-lg font-semibold mb-4">吉凶宜忌</h3>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <h4 class="font-medium text-green-600 mb-2">宜</h4>
+                    <ul class="text-gray-700 space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>谈判合作</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>开展新项目</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>学习进修</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>短途旅行</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-medium text-red-600 mb-2">忌</h4>
+                    <ul class="text-gray-700 space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-times text-red-500 mr-2"></i>
+                            <span>大额投资</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-times text-red-500 mr-2"></i>
+                            <span>冲动决策</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-times text-red-500 mr-2"></i>
+                            <span>情绪争执</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-times text-red-500 mr-2"></i>
+                            <span>熬夜加班</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 幸运提示 -->
+        <div class="fortune-card p-6 mb-6">
+            <h3 class="text-lg font-semibold mb-4">幸运提示</h3>
+            <div class="grid grid-cols-2 gap-4 text-center">
+                <div>
+                    <div class="text-sm text-gray-500 mb-1">幸运色</div>
+                    <div class="font-medium">蓝色、紫色</div>
+                </div>
+                <div>
+                    <div class="text-sm text-gray-500 mb-1">幸运数字</div>
+                    <div class="font-medium">3、8</div>
+                </div>
+                <div>
+                    <div class="text-sm text-gray-500 mb-1">幸运方位</div>
+                    <div class="font-medium">东南方</div>
+                </div>
+                <div>
+                    <div class="text-sm text-gray-500 mb-1">贵人生肖</div>
+                    <div class="font-medium">龙、蛇</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 分享按钮 -->
+        <div class="flex space-x-4 mb-6">
+            <button class="flex-1 bg-indigo-600 text-white py-3 rounded-lg font-medium">分享结果</button>
+            <button class="flex-1 bg-white border border-indigo-600 text-indigo-600 py-3 rounded-lg font-medium">保存图片</button>
+        </div>
+    </main>
+</body>
+</html>

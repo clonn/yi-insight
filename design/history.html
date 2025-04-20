@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>梅花易数 - 历史记录</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            max-width: 390px; /* iPhone 15 Pro width */
+            margin: 0 auto;
+            height: 100vh;
+            background-color: #f8f7ff;
+        }
+        .header {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+        }
+        .history-card {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.75rem;
+        }
+        .nav-icon {
+            font-size: 1.25rem;
+            margin-bottom: 4px;
+        }
+        .hexagram-small {
+            width: 40px;
+            height: 40px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="20" width="80" height="10" fill="%23333"/><rect x="10" y="40" width="80" height="10" fill="%23333"/><rect x="10" y="60" width="35" height="10" fill="%23333"/><rect x="55" y="60" width="35" height="10" fill="%23333"/><rect x="10" y="80" width="80" height="10" fill="%23333"/></svg>');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+        }
+        .tab-active {
+            color: #6366f1;
+            border-bottom: 2px solid #6366f1;
+        }
+    </style>
+</head>
+<body class="flex flex-col h-full">
+    <!-- 顶部导航栏 -->
+    <header class="header p-6 pt-12">
+        <div class="flex justify-between items-center mb-2">
+            <h1 class="text-xl font-bold">历史记录</h1>
+            <button class="text-white"><i class="fas fa-search"></i></button>
+        </div>
+    </header>
+
+    <!-- 标签切换 -->
+    <div class="bg-white px-6 py-3 flex justify-around border-b border-gray-200">
+        <button class="tab-active font-medium py-2 px-4">全部</button>
+        <button class="text-gray-500 font-medium py-2 px-4">本月</button>
+        <button class="text-gray-500 font-medium py-2 px-4">上月</button>
+        <button class="text-gray-500 font-medium py-2 px-4">更早</button>
+    </div>
+
+    <!-- 主要内容区 -->
+    <main class="flex-grow p-6 overflow-y-auto">
+        <!-- 日期分组 -->
+        <div class="mb-6">
+            <div class="text-sm text-gray-500 mb-3">今天</div>
+            
+            <!-- 历史记录卡片 -->
+            <div class="history-card p-4 mb-4 flex items-center">
+                <div class="hexagram-small mr-4"></div>
+                <div class="flex-grow">
+                    <h3 class="font-medium">泽火革卦 - 今日运势</h3>
+                    <p class="text-sm text-gray-500">2023年10月15日</p>
+                </div>
+                <div class="flex flex-col items-end">
+                    <div class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full mb-1">事业 92%</div>
+                    <button class="text-indigo-600 text-sm">查看</button>
+                </div>
+            </div>
+            
+            <div class="history-card p-4 mb-4 flex items-center">
+                <div class="hexagram-small mr-4"></div>
+                <div class="flex-grow">
+                    <h3 class="font-medium">姻缘分析 - 专题解读</h3>
+                    <p class="text-sm text-gray-500">2023年10月15日</p>
+                </div>
+                <div class="flex flex-col items-end">
+                    <div class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded-full mb-1">感情 78%</div>
+                    <button class="text-indigo-600 text-sm">查看</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 昨天 -->
+        <div class="mb-6">
+            <div class="text-sm text-gray-500 mb-3">昨天</div>
+            
+            <div class="history-card p-4 mb-4 flex items-center">
+                <div class="hexagram-small mr-4"></div>
+                <div class="flex-grow">
+                    <h3 class="font-medium">水山蹇卦 - 今日运势</h3>
+                    <p class="text-sm text-gray-500">2023年10月14日</p>
+                </div>
+                <div class="flex flex-col items-end">
+                    <div class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full mb-1">财运 75%</div>
+                    <button class="text-indigo-600 text-sm">查看</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 本周 -->
+        <div class="mb-6">
+            <div class="text-sm text-gray-500 mb-3">本周</div>
+            
+            <div class="history-card p-4 mb-4 flex items-center">
+                <div class="hexagram-small mr-4"></div>
+                <div class="flex-grow">
+                    <h3 class="font-medium">地天泰卦 - 今日运势</h3>
+                    <p class="text-sm text-gray-500">2023年10月13日</p>
+                </div>
+                <div class="flex flex-col items-end">
+                    <div class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full mb-1">健康 90%</div>
+                    <button class="text-indigo-600 text-sm">查看</button>
+                </div>
+            </div>
+            
+            <div class="history-card p-4 mb-4 flex items-center">
+                <div class="hexagram-small mr-4"></div>
+                <div class="flex-grow">
+                    <h3 class="font-medium">天地否卦 - 今日运势</h3>
+                    <p class="text-sm text-gray-500">2023年10月12日</p>
+                </div>
+                <div class="flex flex-col items-end">
+                    <div class="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded-full mb-1">综合 65%</div>
+                    <button class="text-indigo-600 text-sm">查看</button>
+                </div>
+            </div>
+            
+            <div class="history-card p-4 mb-4 flex items-center">
+                <div class="hexagram-small mr-4"></div>
+                <div class="flex-grow">
+                    <h3 class="font-medium">风天小畜卦 - 今日运势</h3>
+                    <p class="text-sm text-gray-500">2023年10月11日</p>
+                </div>
+                <div class="flex flex-col items-end">
+                    <div class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full mb-1">事业 85%</div>
+                    <button class="text-indigo-600 text-sm">查看</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 加载更多 -->
+        <button class="w-full py-3 text-center text-indigo-600 font-medium">加载更多记录</button>
+    </main>
+
+    <!-- 底部导航 -->
+    <footer class="bg-white border-t border-gray-200 py-3 px-6">
+        <div class="flex justify-between">
+            <div class="nav-item text-gray-500">
+                <i class="nav-icon fas fa-home"></i>
+                <span>首页</span>
+            </div>
+            <div class="nav-item text-gray-500">
+                <i class="nav-icon fas fa-compass"></i>
+                <span>发现</span>
+            </div>
+            <div class="nav-item text-indigo-600">
+                <i class="nav-icon fas fa-history"></i>
+                <span>历史</span>
+            </div>
+            <div class="nav-item text-gray-500">
+                <i class="nav-icon fas fa-user"></i>
+                <span>我的</span>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

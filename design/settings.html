@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>梅花易数 - 设置</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            max-width: 390px; /* iPhone 15 Pro width */
+            margin: 0 auto;
+            height: 100vh;
+            background-color: #f8f7ff;
+        }
+        .header {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+        }
+        .settings-card {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        .toggle {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 28px;
+        }
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #e5e7eb;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #6366f1;
+        }
+        input:checked + .slider:before {
+            transform: translateX(22px);
+        }
+    </style>
+</head>
+<body class="flex flex-col h-full">
+    <!-- 顶部导航栏 -->
+    <header class="header p-6 pt-12">
+        <div class="flex items-center mb-2">
+            <button class="mr-4 text-white"><i class="fas fa-arrow-left"></i></button>
+            <h1 class="text-xl font-bold">设置</h1>
+        </div>
+    </header>
+
+    <!-- 主要内容区 -->
+    <main class="flex-grow p-6 overflow-y-auto">
+        <!-- 通知设置 -->
+        <div class="settings-card p-6 mb-6">
+            <h3 class="text-lg font-semibold mb-4">通知设置</h3>
+            <div class="space-y-4">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="font-medium">每日运势提醒</div>
+                        <div class="text-sm text-gray-500">每天早上8点推送当日运势</div>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="border-t border-gray-100 pt-4 flex justify-between items-center">
+                    <div>
+                        <div class="font-medium">重要日期提醒</div>
+                        <div class="text-sm text-gray-500">提前一天提醒重要日期的运势</div>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="border-t border-gray-100 pt-4 flex justify-between items-center">
+                    <div>
+                        <div class="font-medium">会员到期提醒</div>
+                        <div class="text-sm text-gray-500">会员到期前7天提醒</div>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- 隐私设置 -->
+        <div class="settings-card p-6 mb-6">
+            <h3 class="text-lg font-semibold mb-4">隐私设置</h3>
+            <div class="space-y-4">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="font-medium">个人资料公开</div>
+                        <div class="text-sm text-gray-500">允许其他用户查看您的基本资料</div>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="border-t border-gray-100 pt-4 flex justify-between items-center">
+                    <div>
+                        <div class="font-medium">运势分享</div>
+                        <div class="text-sm text-gray-500">允许一键分享运势到社交媒体</div>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="border-t border-gray-100 pt-4 flex justify-between items-center">
+                    <div>
+                        <div class="font-medium">数据收集</div>
+                        <div class="text-sm text-gray-500">允许收集使用数据以改进服务</div>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- 显示设置 -->
+        <div class="settings-card p-6 mb-6">
+            <h3 class="text-lg font-semibold mb-4">显示设置</h3>
+            <div class="space-y-4">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="font-medium">深色模式</div>
+                        <div class="text-sm text-gray-500">切换应用的深色/浅色主题</div>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="border-t border-gray-100 pt-4 flex justify-between items-center">
+                    <div>
+                        <div class="font-medium">字体大小</div>
+                        <div class="text-sm text-gray-500">调整应用内文字大小</div>
+                    </div>
+                    <select class="bg-gray-100 border-0 rounded-md py-2 px-3 text-sm">
+                        <option>小</option>
+                        <option selected>中</option>
+                        <option>大</option>
+                        <option>特大</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- 通用设置 -->
+        <div class="settings-card p-6 mb-6">
+            <h3 class="text-lg font-semibold mb-4">通用设置</h3>
+            <div class="space-y-4">
+                <div class="flex justify-between items-center">
+                    <div class="font-medium">清除缓存</div>
+                    <button class="text-indigo-600 text-sm">清除</button>
+                </div>
+                <div class="border-t border-gray-100 pt-4 flex justify-between items-center">
+                    <div class="font-medium">检查更新</div>
+                    <div class="text-sm text-gray-500">当前版本 v1.2.3</div>
+                </div>
+                <div class="border-t border-gray-100 pt-4 flex justify-between items-center">
+                    <div class="font-medium">关于我们</div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+                <div class="border-t border-gray-100 pt-4 flex justify-between items-center">
+                    <div class="font-medium">用户协议</div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+                <div class="border-t border-gray-100 pt-4 flex justify-between items-center">
+                    <div class="font-medium">隐私政策</div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+                <div class="border-t border-gray-100 pt-4 flex justify-between items-center">
+                    <div class="font-medium">联系客服</div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

@@ -19,9 +19,9 @@ export default async function Dashboard() {
             <button className="text-white">
               <i className="fas fa-bell"></i>
             </button>
-            <button className="text-white">
+            <Link href="/dashboard/profile" className="text-white">
               <i className="fas fa-cog"></i>
-            </button>
+            </Link>
           </div>
         </div>
         <div className="text-sm opacity-90 mb-2">今日運勢 · {new Date().toLocaleDateString('zh-TW')}</div>
@@ -30,31 +30,30 @@ export default async function Dashboard() {
 
       {/* Main Content */}
       <main className="flex-grow p-6 -mt-6 overflow-y-auto">
-        {/* Today's Fortune Card */}
+        {/* Preview Card */}
         <div className="bg-white rounded-2xl shadow-md p-5 mb-6">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold">今日命理分析</h3>
-            <span className="w-[60px] h-[60px] bg-contain bg-center bg-no-repeat"
-                  style={{backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="20" width="80" height="10" fill="%23333"/><rect x="10" y="40" width="80" height="10" fill="%23333"/><rect x="10" y="60" width="35" height="10" fill="%23333"/><rect x="55" y="60" width="35" height="10" fill="%23333"/><rect x="10" y="80" width="80" height="10" fill="%23333"/></svg>')`}}>
-            </span>
+            <h3 className="text-lg font-semibold">今日運勢預覽</h3>
+            <div className="w-[60px] h-[60px] bg-contain bg-center bg-no-repeat"
+                 style={{backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="20" width="80" height="10" fill="%23333"/><rect x="10" y="40" width="80" height="10" fill="%23333"/><rect x="10" y="60" width="35" height="10" fill="%23333"/><rect x="55" y="60" width="35" height="10" fill="%23333"/><rect x="10" y="80" width="80" height="10" fill="%23333"/></svg>')`}}>
+            </div>
           </div>
-          <p className="text-gray-600 mb-4">根據梅花易數分析，今日您的事業運勢較好，適合開展新項目或與人合作。感情方面需要多加溝通，避免誤會。</p>
           <div className="grid grid-cols-4 gap-2 mb-4">
             <div className="text-center">
-              <div className="text-yellow-500 font-bold">85%</div>
-              <div className="text-xs text-gray-500">財運</div>
+              <div className="text-yellow-500 font-bold">財運</div>
+              <div className="text-xs text-gray-500">每日分析</div>
             </div>
             <div className="text-center">
-              <div className="text-green-500 font-bold">92%</div>
-              <div className="text-xs text-gray-500">事業</div>
+              <div className="text-green-500 font-bold">事業</div>
+              <div className="text-xs text-gray-500">發展指引</div>
             </div>
             <div className="text-center">
-              <div className="text-red-500 font-bold">78%</div>
-              <div className="text-xs text-gray-500">感情</div>
+              <div className="text-red-500 font-bold">感情</div>
+              <div className="text-xs text-gray-500">關係解讀</div>
             </div>
             <div className="text-center">
-              <div className="text-blue-500 font-bold">88%</div>
-              <div className="text-xs text-gray-500">健康</div>
+              <div className="text-blue-500 font-bold">健康</div>
+              <div className="text-xs text-gray-500">養生建議</div>
             </div>
           </div>
           <Link href="/fortune" className="block w-full">
@@ -93,25 +92,15 @@ export default async function Dashboard() {
         </div>
 
         {/* Recent Readings */}
-        <h3 className="text-lg font-semibold mb-4">最近解讀</h3>
+        <h3 className="text-lg font-semibold mb-4">個人問事</h3>
         <div className="space-y-4">
-          <div className="bg-white rounded-2xl shadow-md p-4 flex items-center">
-            <div className="bg-indigo-100 rounded-lg w-12 h-12 flex items-center justify-center mr-4">
-              <i className="fas fa-star text-indigo-600"></i>
-            </div>
-            <div className="flex-grow">
-              <h4 className="font-medium">事業發展分析</h4>
-              <p className="text-sm text-gray-500">2024年3月15日</p>
-            </div>
-            <i className="fas fa-chevron-right text-gray-400"></i>
-          </div>
           <div className="bg-white rounded-2xl shadow-md p-4 flex items-center">
             <div className="bg-pink-100 rounded-lg w-12 h-12 flex items-center justify-center mr-4">
               <i className="fas fa-heart text-pink-600"></i>
             </div>
             <div className="flex-grow">
-              <h4 className="font-medium">感情運勢解讀</h4>
-              <p className="text-sm text-gray-500">2024年3月14日</p>
+              <h4 className="font-medium">愛情運勢專題解讀</h4>
+              <p className="text-sm text-gray-500">深入分析您的感情狀況和發展</p>
             </div>
             <i className="fas fa-chevron-right text-gray-400"></i>
           </div>
@@ -133,10 +122,10 @@ export default async function Dashboard() {
             <i className="fas fa-history text-xl mb-1"></i>
             <span className="text-xs">歷史</span>
           </div>
-          <div className="flex flex-col items-center text-gray-500">
+          <Link href="/dashboard/profile" className="flex flex-col items-center text-gray-500">
             <i className="fas fa-user text-xl mb-1"></i>
             <span className="text-xs">我的</span>
-          </div>
+          </Link>
         </div>
       </footer>
     </div>
