@@ -14,22 +14,24 @@ export function StepIndicator({ currentStep }: StepIndicatorProps) {
   ];
 
   return (
-    <div className="flex justify-between items-center mb-8">
+    <div className="flex justify-between items-center">
       {steps.map((step) => (
         <div
           key={step.number}
           className={`flex flex-col items-center ${
-            currentStep === step.number ? 'text-blue-600' : 'text-gray-400'
+            currentStep === step.number ? 'text-white' : 'text-white/70'
           }`}
         >
           <div
-            className={`w-8 h-8 rounded-full flex items-center justify-center mb-2 ${
-              currentStep === step.number ? 'bg-blue-600 text-white' : 'bg-gray-200'
+            className={`w-8 h-8 rounded-full flex items-center justify-center mb-1.5 border ${
+              currentStep === step.number 
+                ? 'bg-white/20 border-white shadow-white/30 shadow-lg' 
+                : 'bg-white/10 border-white/40'
             }`}
           >
-            {step.number}
+            <span className="text-base font-bold">{step.number}</span>
           </div>
-          <span className="text-sm">{step.name}</span>
+          <span className="text-sm font-medium">{step.name}</span>
         </div>
       ))}
     </div>

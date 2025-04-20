@@ -1,35 +1,31 @@
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
-import Link from 'next/link';
+'use client';
 
-export default async function Fortune() {
-  const supabase = createServerComponentClient({ cookies });
-  const { data: { session } } = await supabase.auth.getSession();
+import { useRouter } from 'next/navigation';
 
-  // 獲取當前日期
-  const today = new Date();
-  const lunarDate = '農曆九月初一'; // 這裡需要一個農曆轉換的功能
+export default function FortunePage() {
+  const router = useRouter();
 
   return (
     <div className="flex flex-col h-screen max-w-[390px] mx-auto bg-[#f8f7ff]">
-      {/* Header */}
+      {/* 頂部導航欄 */}
       <header className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-6 pt-12">
         <div className="flex items-center mb-4">
-          <Link href="/dashboard" className="mr-4 text-white">
+          <button 
+            onClick={() => router.back()}
+            className="mr-4 text-white"
+          >
             <i className="fas fa-arrow-left"></i>
-          </Link>
-          <h1 className="text-xl font-bold">今日命理分析</h1>
+          </button>
+          <h1 className="text-xl font-bold">卜卦結果詳解</h1>
         </div>
-        <div className="text-sm opacity-90">
-          {today.toLocaleDateString('zh-TW')} · {lunarDate}
-        </div>
+        <div className="text-sm opacity-90">2024年1月15日 · 農曆十二月初四</div>
       </header>
 
-      {/* Main Content */}
+      {/* 主要內容區 */}
       <main className="flex-grow p-6 overflow-y-auto">
         {/* 卦象展示 */}
-        <div className="bg-white rounded-2xl shadow-md p-6 mb-6 text-center">
-          <div className="w-[100px] h-[100px] bg-contain bg-center bg-no-repeat mx-auto mb-4"
+        <div className="bg-white rounded-2xl shadow-lg p-6 mb-6 text-center border border-gray-200">
+          <div className="w-[100px] h-[100px] mx-auto mb-4 bg-contain bg-center bg-no-repeat"
                style={{backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="20" width="80" height="10" fill="%23333"/><rect x="10" y="40" width="80" height="10" fill="%23333"/><rect x="10" y="60" width="35" height="10" fill="%23333"/><rect x="55" y="60" width="35" height="10" fill="%23333"/><rect x="10" y="80" width="80" height="10" fill="%23333"/></svg>')`}}>
           </div>
           <h2 className="text-xl font-bold mb-2">澤火革卦</h2>
@@ -49,7 +45,7 @@ export default async function Fortune() {
         </div>
 
         {/* 運勢評分 */}
-        <div className="bg-white rounded-2xl shadow-md p-6 mb-6">
+        <div className="bg-white rounded-2xl shadow-lg p-6 mb-6 border border-gray-200">
           <h3 className="text-lg font-semibold mb-4">今日運勢評分</h3>
           <div className="space-y-4">
             <div>
@@ -57,8 +53,8 @@ export default async function Fortune() {
                 <span className="font-medium">財運</span>
                 <span className="text-yellow-500 font-bold">85%</span>
               </div>
-              <div className="h-2 bg-gray-200 rounded">
-                <div className="h-2 bg-yellow-500 rounded" style={{width: '85%'}}></div>
+              <div className="h-2 bg-gray-200 rounded-full">
+                <div className="h-2 bg-yellow-500 rounded-full" style={{width: '85%'}}></div>
               </div>
             </div>
             <div>
@@ -66,8 +62,8 @@ export default async function Fortune() {
                 <span className="font-medium">事業</span>
                 <span className="text-green-500 font-bold">92%</span>
               </div>
-              <div className="h-2 bg-gray-200 rounded">
-                <div className="h-2 bg-green-500 rounded" style={{width: '92%'}}></div>
+              <div className="h-2 bg-gray-200 rounded-full">
+                <div className="h-2 bg-green-500 rounded-full" style={{width: '92%'}}></div>
               </div>
             </div>
             <div>
@@ -75,8 +71,8 @@ export default async function Fortune() {
                 <span className="font-medium">感情</span>
                 <span className="text-red-500 font-bold">78%</span>
               </div>
-              <div className="h-2 bg-gray-200 rounded">
-                <div className="h-2 bg-red-500 rounded" style={{width: '78%'}}></div>
+              <div className="h-2 bg-gray-200 rounded-full">
+                <div className="h-2 bg-red-500 rounded-full" style={{width: '78%'}}></div>
               </div>
             </div>
             <div>
@@ -84,15 +80,15 @@ export default async function Fortune() {
                 <span className="font-medium">健康</span>
                 <span className="text-blue-500 font-bold">88%</span>
               </div>
-              <div className="h-2 bg-gray-200 rounded">
-                <div className="h-2 bg-blue-500 rounded" style={{width: '88%'}}></div>
+              <div className="h-2 bg-gray-200 rounded-full">
+                <div className="h-2 bg-blue-500 rounded-full" style={{width: '88%'}}></div>
               </div>
             </div>
           </div>
         </div>
 
         {/* 詳細解讀 */}
-        <div className="bg-white rounded-2xl shadow-md p-6 mb-6">
+        <div className="bg-white rounded-2xl shadow-lg p-6 mb-6 border border-gray-200">
           <h3 className="text-lg font-semibold mb-4">詳細解讀</h3>
           <div className="space-y-4">
             <div>
@@ -115,7 +111,7 @@ export default async function Fortune() {
         </div>
 
         {/* 吉凶宜忌 */}
-        <div className="bg-white rounded-2xl shadow-md p-6 mb-6">
+        <div className="bg-white rounded-2xl shadow-lg p-6 mb-6 border border-gray-200">
           <h3 className="text-lg font-semibold mb-4">吉凶宜忌</h3>
           <div className="grid grid-cols-2 gap-4">
             <div>
@@ -164,7 +160,7 @@ export default async function Fortune() {
         </div>
 
         {/* 幸運提示 */}
-        <div className="bg-white rounded-2xl shadow-md p-6 mb-6">
+        <div className="bg-white rounded-2xl shadow-lg p-6 mb-6 border border-gray-200">
           <h3 className="text-lg font-semibold mb-4">幸運提示</h3>
           <div className="grid grid-cols-2 gap-4 text-center">
             <div>
@@ -187,12 +183,12 @@ export default async function Fortune() {
         </div>
 
         {/* 分享按鈕 */}
-        <div className="flex space-x-4 mb-6">
-          <button className="flex-1 bg-indigo-600 text-white py-3 rounded-lg font-medium">
+        <div className="flex gap-4 mb-6">
+          <button className="flex-1 bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-3 rounded-xl font-medium hover:from-indigo-600 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-200">
             分享結果
           </button>
-          <button className="flex-1 bg-white border border-indigo-600 text-indigo-600 py-3 rounded-lg font-medium">
-            保存圖片
+          <button className="flex-1 bg-white border-2 border-indigo-500 text-indigo-600 py-3 rounded-xl font-medium hover:bg-indigo-50 shadow-md hover:shadow-lg transition-all duration-200">
+            儲存圖片
           </button>
         </div>
       </main>
