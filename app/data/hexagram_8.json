@@ -1,0 +1,58 @@
+{
+  "乾": {
+    "binary": "111",
+    "icon": "☰",
+    "property": "金",
+    "color": "白",
+    "role": "父"
+  },
+  "兌": {
+    "binary": "110",
+    "icon": "☱",
+    "property": "金",
+    "color": "白",
+    "role": "少女"
+  },
+  "離": {
+    "binary": "101",
+    "icon": "☲",
+    "property": "火",
+    "color": "紫",
+    "role": "中女"
+  },
+  "震": {
+    "binary": "001",
+    "icon": "☳",
+    "property": "木",
+    "color": "青",
+    "role": "長男"
+  },
+  "巽": {
+    "binary": "011",
+    "icon": "☴",
+    "property": "木",
+    "color": "青",
+    "role": "長女"
+  },
+  "坎": {
+    "binary": "010",
+    "icon": "☵",
+    "property": "水",
+    "color": "黑",
+    "role": "中男"
+  },
+  "艮": {
+    "binary": "100",
+    "icon": "☶",
+    "property": "土",
+    "color": "黃",
+    "role": "少男"
+  },
+  "坤": {
+    "binary": "000",
+    "icon": "☷",
+    "property": "土",
+    "color": "黃",
+    "role": "母"
+  }
+} 

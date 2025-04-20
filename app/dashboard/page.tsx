@@ -94,16 +94,18 @@ export default async function Dashboard() {
         {/* Recent Readings */}
         <h3 className="text-lg font-semibold mb-4">個人問事</h3>
         <div className="space-y-4">
-          <div className="bg-white rounded-2xl shadow-md p-4 flex items-center">
-            <div className="bg-pink-100 rounded-lg w-12 h-12 flex items-center justify-center mr-4">
-              <i className="fas fa-heart text-pink-600"></i>
+          <Link href="/divination" className="block">
+            <div className="bg-white rounded-2xl shadow-md p-4 flex items-center hover:bg-gray-50 transition-colors">
+              <div className="bg-purple-100 rounded-lg w-12 h-12 flex items-center justify-center mr-4">
+                <i className="fas fa-compass text-purple-600"></i>
+              </div>
+              <div className="flex-grow">
+                <h4 className="font-medium">易經問事</h4>
+                <p className="text-sm text-gray-500">透過易經卦象為您解答人生疑惑</p>
+              </div>
+              <i className="fas fa-chevron-right text-gray-400"></i>
             </div>
-            <div className="flex-grow">
-              <h4 className="font-medium">愛情運勢專題解讀</h4>
-              <p className="text-sm text-gray-500">深入分析您的感情狀況和發展</p>
-            </div>
-            <i className="fas fa-chevron-right text-gray-400"></i>
-          </div>
+          </Link>
         </div>
       </main>
 

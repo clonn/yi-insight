@@ -1,0 +1,20 @@
+[
+  {
+    "name": "乾卦",
+    "lowerTrigram": "乾",
+    "upperTrigram": "乾",
+    "meaning": "天行健，君子以自強不息"
+  },
+  {
+    "name": "坤卦",
+    "lowerTrigram": "坤",
+    "upperTrigram": "坤",
+    "meaning": "地勢坤，君子以厚德載物"
+  },
+  {
+    "name": "屯卦",
+    "lowerTrigram": "震",
+    "upperTrigram": "坎",
+    "meaning": "雲雷屯，君子以經綸"
+  }
+] 

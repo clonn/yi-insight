@@ -1,28 +1,18 @@
 'use client';
 
-import { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import { QuestionStep } from '@/components/QuestionStep';
-import { LowerTrigramStep } from '@/components/LowerTrigramStep';
-import { UpperTrigramStep } from '@/components/UpperTrigramStep';
-import { ChangingLineStep } from '@/components/ChangingLineStep';
-import { ResultStep } from '@/components/ResultStep';
-import { StepIndicator } from '@/components/StepIndicator';
-import { Footer } from '@/components/Footer';
+import { StepIndicator } from './StepIndicator';
+import { QuestionStep } from './QuestionStep';
+import { LowerTrigramStep } from './LowerTrigramStep';
+import { UpperTrigramStep } from './UpperTrigramStep';
+import { ResultStep } from './ResultStep';
+import { ChangingLineStep } from './ChangingLineStep';
+import { useIching } from '@/app/hooks/useIching';
+import { calculateResult } from '@/app/utils/ichingCalculations';
+import { scrollToTop } from '@/app/utils/scrollUtils';
 
-
-import { useIching } from '@/hooks/useIching';
-import { calculateResult } from '@/utils/ichingCalculations';
-import { scrollToTop } from '@/utils/scrollUtils';
-
-export default function Home(): React.JSX.Element {
-  const [currentStep, setCurrentStep] = useState<number>(1);
+export function DivinationContainer() {
   const { state, actions } = useIching();
-
-  const handleRandomize = (setValue: (value: number) => void) => {
-    const randomNumber = Math.floor(Math.random() * 8) + 1;
-    setValue(randomNumber);
-  };
 
   const handleCalculate = async () => {
     try {
@@ -37,46 +27,21 @@ export default function Home(): React.JSX.Element {
         setResult: actions.setResult,
         setAiInterpretation: actions.setAiInterpretation
       });
-      
     } catch (error: unknown) {
       console.error('Calculation error:', error);
-      alert(error instanceof Error ? error.message : '計算過程發生錯誤');
+      if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert('An unknown error occurred');
+      }
     } finally {
       console.log('Calculation finished');
       actions.setIsCalculating(false);
     }
   };
 
-  interface Step {
-    title: string;
-    description: string;
-  }
-
-  const steps: Step[] = [
-    { title: '詢問', description: '設定你的問題' },
-    { title: '下卦', description: '選擇下卦' },
-    { title: '上卦', description: '選擇上卦' },
-    { title: '動爻', description: '選擇動爻' },
-    { title: '結果', description: '查看解卦結果' },
-  ];
-
-  const handleNextStep = () => {
-    if (currentStep < steps.length) {
-      setCurrentStep(currentStep + 1);
-    }
-  };
-
-  const handlePrevStep = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
-    }
-  };
-
   return (
-    <div className="container mx-auto px-4 py-8 max-w-3xl">
-      <h1 className="text-3xl font-bold text-center mb-2">數字易經威力加強版</h1>
-      <div className="text-sm text-gray-500 text-center mb-2">v1.1.0-betav1111</div>
-
+    <div className="w-full">
       <StepIndicator currentStep={state.currentStep} />
 
       <AnimatePresence mode="wait" initial={false}>
@@ -149,8 +114,6 @@ export default function Home(): React.JSX.Element {
           />
         )}
       </AnimatePresence>
-
-      <Footer />
     </div>
   );
-}
+} 
